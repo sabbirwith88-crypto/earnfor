@@ -8,6 +8,9 @@
     <!-- Add SDK Script for Rewarded Ads & Interstitial Ads -->
     <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
     
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
@@ -2948,6 +2951,13 @@
         let taskCompleted = false;
         let popupAdWindow = null;
         
+        // Check if running in Telegram
+        function isTelegramWebApp() {
+            return (typeof Telegram !== 'undefined' && Telegram.WebApp) || 
+                   window.location.href.includes('telegram') || 
+                   navigator.userAgent.includes('Telegram');
+        }
+        
         function showLoading(msg = 'Loading...') { loadingText.textContent = msg; loadingSpinner.classList.add('active'); }
         function hideLoading() { loadingSpinner.classList.remove('active'); }
         
@@ -3170,7 +3180,6 @@
             // ইন্টারস্টিশিয়াল টাস্ক - রিওয়ার্ড অ্যাডের মতোই প্রতি ক্লিকে অ্যাড আসবে
             if (task.id === 'task5' || task.type === 'interstitial') {
                 if (typeof show_10541383 !== 'undefined') {
-                    // রিওয়ার্ড অ্যাডের মতোই শুধু show_10541383() কল করুন - প্রতি ক্লিকে অ্যাড আসবে
                     show_10541383().then(async () => {
                         await userManager.completeTask(user.uid, task.id, task.reward);
                         updateUserInfo(userManager.userData); updateTaskStatuses();
@@ -3180,7 +3189,6 @@
                         showModal(errorModal, 'Failed to load interstitial ad or ad was not completed. Please try again.'); 
                     });
                 } else {
-                    // SDK না থাকলে ডেমো রিওয়ার্ড
                     setTimeout(async () => { 
                         await userManager.completeTask(user.uid, task.id, task.reward); 
                         updateUserInfo(userManager.userData); updateTaskStatuses(); 
@@ -3203,6 +3211,7 @@
             else if (task.id === 'task3') {
                 currentTask = task; taskButtonElement = btn; taskSecondsRemaining = 12; warningTimerDisplay.textContent = taskSecondsRemaining; showModal(timerWarningModal);
             } else if (task.id === 'task4') {
+                // TELEGRAM FIX: Special handling for Telegram WebApp
                 currentTask = task; taskButtonElement = btn; taskSecondsRemaining = 12; warningTimerDisplay.textContent = taskSecondsRemaining; showModal(timerWarningModal);
             }
         }
@@ -3245,42 +3254,90 @@
                     }, 1000); 
                 }
             } else if (currentTask.id === 'task4') {
-                taskTab = window.open(currentTask.link, '_blank');
-                if (!taskTab) { showModal(errorModal, 'Please allow pop-ups to start the task.'); taskButtonElement.disabled=false; taskButtonElement.innerHTML='<i class="fas fa-play-circle"></i> Start Task'; return; }
+                // TELEGRAM FIX: Completely redesigned for Telegram WebApp
                 taskButtonElement.innerHTML = '<i class="fas fa-clock"></i> 12 seconds remaining...';
-                taskStartedTime = Date.now(); taskCompleted = false;
+                taskStartedTime = Date.now();
+                taskCompleted = false;
+                
+                // Open link with Telegram WebApp if available, otherwise use normal method
+                if (isTelegramWebApp() && typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                    try {
+                        // Method 1: Telegram WebApp openLink (opens externally)
+                        Telegram.WebApp.openLink(currentTask.link);
+                    } catch (e) {
+                        // Method 2: Fallback to normal window.open
+                        taskTab = window.open(currentTask.link, '_blank');
+                    }
+                } else {
+                    // Normal browser environment
+                    taskTab = window.open(currentTask.link, '_blank');
+                }
+                
+                // Start timer immediately
                 taskTimerInterval = setInterval(async () => {
                     const elapsed = Date.now() - taskStartedTime;
+                    
                     if (elapsed >= 12000) {
-                        clearInterval(taskTimerInterval); taskCompleted = true;
-                        if (taskTab && !taskTab.closed) taskTab.close();
+                        clearInterval(taskTimerInterval);
+                        taskCompleted = true;
+                        
+                        // Close tab if it's still open (only in normal browser)
+                        if (taskTab && !taskTab.closed) {
+                            try { taskTab.close(); } catch(e) {}
+                        }
+                        
                         await userManager.completeTask(user.uid, currentTask.id, currentTask.reward);
-                        updateUserInfo(userManager.userData); updateTaskStatuses();
+                        updateUserInfo(userManager.userData);
+                        updateTaskStatuses();
                         showModal(successModal, 'Task completed successfully! You stayed for 12 seconds. 150 Pepe has been added to your balance.');
-                        currentTask = null; taskButtonElement = null; taskTab = null;
+                        
+                        currentTask = null;
+                        taskButtonElement = null;
+                        taskTab = null;
                     } else {
                         const rem = Math.ceil((12000 - elapsed) / 1000);
                         taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${rem} seconds remaining...`;
-                        if (document.hasFocus() && elapsed < 12000) {
+                        
+                        // Don't check focus in Telegram - it doesn't work properly
+                        if (!isTelegramWebApp() && document.hasFocus() && elapsed < 12000) {
+                            // User returned to app early in normal browser
                             clearInterval(taskTimerInterval);
-                            if (taskTab && !taskTab.closed) taskTab.close();
-                            taskButtonElement.disabled=false; taskButtonElement.innerHTML='<i class="fas fa-play-circle"></i> Start Task';
+                            if (taskTab && !taskTab.closed) {
+                                try { taskTab.close(); } catch(e) {}
+                            }
+                            taskButtonElement.disabled = false;
+                            taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
                             showModal(errorModal, 'You returned before 12 seconds! No reward given.');
-                            currentTask = null; taskButtonElement = null; taskTab = null;
+                            
+                            currentTask = null;
+                            taskButtonElement = null;
+                            taskTab = null;
                         }
                     }
                 }, 1000);
-                const tabCheck = setInterval(() => {
-                    if (taskCompleted) { clearInterval(tabCheck); return; }
-                    if (taskTab.closed) {
-                        clearInterval(tabCheck); clearInterval(taskTimerInterval);
-                        if (!taskCompleted) {
-                            taskButtonElement.disabled=false; taskButtonElement.innerHTML='<i class="fas fa-play-circle"></i> Start Task';
-                            showModal(errorModal, 'You closed the tab before 12 seconds! No reward given.');
-                            currentTask = null; taskButtonElement = null; taskTab = null;
+                
+                // Tab close detection - only for normal browser
+                if (!isTelegramWebApp() && taskTab) {
+                    const tabCheck = setInterval(() => {
+                        if (taskCompleted) {
+                            clearInterval(tabCheck);
+                            return;
                         }
-                    }
-                }, 500);
+                        if (taskTab.closed) {
+                            clearInterval(tabCheck);
+                            clearInterval(taskTimerInterval);
+                            if (!taskCompleted) {
+                                taskButtonElement.disabled = false;
+                                taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                                showModal(errorModal, 'You closed the tab before 12 seconds! No reward given.');
+                                
+                                currentTask = null;
+                                taskButtonElement = null;
+                                taskTab = null;
+                            }
+                        }
+                    }, 500);
+                }
             }
         }
         
