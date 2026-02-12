@@ -1840,7 +1840,7 @@
                 </div>
             </div>
             
-            <!-- User Menu (Simplified - Only Change Password) -->
+            <!-- User Menu -->
             <div class="user-menu" id="userMenu">
                 <div class="user-info">
                     <div style="font-weight: 600;" id="menuUserEmail">user@email.com</div>
@@ -2364,7 +2364,7 @@
             </div>
         </div>
         
-        <!-- 12 Second Timer Warning Modal (শুধুমাত্র task3 ও task4 এর জন্য) -->
+        <!-- 12 Second Timer Warning Modal -->
         <div class="modal timer-modal" id="timerWarningModal">
             <div class="modal-content">
                 <div class="modal-title">
@@ -2502,7 +2502,9 @@
         }
         const loadingManager = new LoadingManager();
 
-        // FirebaseUserManager - মিনিমাম ৫০০০০, ৪টি টাস্ক, ইন্টারস্টিশিয়াল টাস্ক ২য় পজিশনে (প্রতি ক্লিকে অ্যাড আসবে)
+        // ============================================
+        // FIXED: FirebaseUserManager - Daily Task Count Persistence
+        // ============================================
         class FirebaseUserManager {
             constructor() {
                 this.currentUser = null;
@@ -2510,6 +2512,13 @@
                 this.taskCompletions = {};
                 this.dailyTaskCounts = {};
                 this.lastResetDate = localStorage.getItem('earnPepeLastResetDate') || new Date().toDateString();
+                
+                // Load saved counts from localStorage as backup
+                try {
+                    const savedCounts = localStorage.getItem('earnPepeDailyTaskCounts');
+                    if (savedCounts) this.dailyTaskCounts = JSON.parse(savedCounts);
+                } catch(e) { console.error('Error loading daily counts:', e); }
+                
                 this.checkAndResetDailyCounts();
             }
             
@@ -2518,7 +2527,21 @@
                 if (today !== this.lastResetDate) {
                     this.dailyTaskCounts = {};
                     localStorage.setItem('earnPepeLastResetDate', today);
+                    localStorage.setItem('earnPepeDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
                 }
+            }
+            
+            // FIXED: Load daily counts from Firebase user data
+            async loadDailyCountsFromFirebase(userId) {
+                try {
+                    const userData = await this.getUserData(userId);
+                    if (userData && userData.dailyTaskCounts) {
+                        this.dailyTaskCounts[userId] = userData.dailyTaskCounts;
+                        localStorage.setItem('earnPepeDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
+                        return userData.dailyTaskCounts;
+                    }
+                } catch(e) { console.error('Error loading daily counts from Firebase:', e); }
+                return null;
             }
             
             generateReferralCode(email) {
@@ -2618,6 +2641,7 @@
                         fairUseVerified: false,
                         withdrawalHistory: [],
                         tasksCompleted: [],
+                        dailyTaskCounts: {}, // FIXED: Add dailyTaskCounts field
                         lastActive: new Date().toISOString(),
                         lastWithdrawalMonth: null
                     };
@@ -2654,6 +2678,16 @@
                     const userCredential = await Promise.race([loginPromise, timeoutPromise]);
                     const user = userCredential.user;
                     let userData = await this.getUserData(user.uid);
+                    
+                    // FIXED: Initialize dailyTaskCounts if not exists
+                    if (!userData.dailyTaskCounts) {
+                        userData.dailyTaskCounts = {};
+                        await database.ref('users/' + user.uid).update({ dailyTaskCounts: {} });
+                    }
+                    
+                    // FIXED: Load daily counts from Firebase
+                    await this.loadDailyCountsFromFirebase(user.uid);
+                    
                     if (!userData) {
                         const userReferralCode = this.generateReferralCode(email);
                         userData = {
@@ -2661,12 +2695,14 @@
                             referralCode: userReferralCode,
                             balance: 0, totalEarned: 0, referralBonus: 0, referrals: [], referredBy: null,
                             createdAt: new Date().toISOString(), fairUseVerified: false, withdrawalHistory: [],
-                            tasksCompleted: [], lastActive: new Date().toISOString(), lastWithdrawalMonth: null
+                            tasksCompleted: [], dailyTaskCounts: {},
+                            lastActive: new Date().toISOString(), lastWithdrawalMonth: null
                         };
                         await database.ref('users/' + user.uid).set(userData);
                     } else {
                         await database.ref('users/' + user.uid).update({ lastActive: new Date().toISOString() });
                     }
+                    
                     this.currentUser = user;
                     this.userData = userData;
                     return { success: true, user, userData };
@@ -2677,7 +2713,10 @@
             }
             
             async getUserData(userId) {
-                try { const snapshot = await database.ref('users/' + userId).once('value'); return snapshot.val(); }
+                try { 
+                    const snapshot = await database.ref('users/' + userId).once('value'); 
+                    return snapshot.val(); 
+                }
                 catch (error) { console.error('Error getting user data:', error); return null; }
             }
             
@@ -2748,68 +2787,134 @@
                 }
             }
             
+            // FIXED: Complete Task with Firebase daily count persistence
             async completeTask(userId, taskId, reward) {
                 try {
                     const userData = await this.getUserData(userId);
                     if (!userData) return false;
-                    const updates = { balance: userData.balance + reward, totalEarned: userData.totalEarned + reward };
+                    
+                    // Update balance and total earned
+                    const updates = { 
+                        balance: (userData.balance || 0) + reward, 
+                        totalEarned: (userData.totalEarned || 0) + reward 
+                    };
+                    
+                    // Update tasks completed history
                     const tasksCompleted = userData.tasksCompleted || [];
                     tasksCompleted.push({ taskId, completedAt: new Date().toISOString(), reward });
                     updates.tasksCompleted = tasksCompleted;
+                    
+                    // FIXED: Update daily task counts in Firebase
+                    const today = new Date().toDateString();
+                    const dailyCounts = userData.dailyTaskCounts || {};
+                    
+                    if (!dailyCounts[today]) dailyCounts[today] = {};
+                    dailyCounts[today][taskId] = (dailyCounts[today][taskId] || 0) + 1;
+                    updates.dailyTaskCounts = dailyCounts;
+                    
+                    // Save to Firebase
                     await database.ref('users/' + userId).update(updates);
+                    
+                    // Update local cache
                     this.userData = { ...this.userData, ...updates };
                     
-                    if (!this.taskCompletions[userId]) this.taskCompletions[userId] = {};
-                    this.taskCompletions[userId][taskId] = {
-                        lastCompleted: new Date().toISOString(),
-                        count: (this.taskCompletions[userId][taskId]?.count || 0) + 1
-                    };
-                    const today = new Date().toDateString();
+                    // Update local daily counts
                     if (!this.dailyTaskCounts[userId]) this.dailyTaskCounts[userId] = {};
                     if (!this.dailyTaskCounts[userId][today]) this.dailyTaskCounts[userId][today] = {};
                     this.dailyTaskCounts[userId][today][taskId] = (this.dailyTaskCounts[userId][today][taskId] || 0) + 1;
                     
-                    localStorage.setItem('earnPepeTaskCompletions', JSON.stringify(this.taskCompletions));
+                    // Save to localStorage as backup
                     localStorage.setItem('earnPepeDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
+                    
                     return true;
-                } catch (error) { console.error('Error completing task:', error); return false; }
+                } catch (error) { 
+                    console.error('Error completing task:', error); 
+                    return false; 
+                }
             }
             
+            // FIXED: Check if user can complete task with accurate counts
             canCompleteTask(userId, taskId) {
                 const today = new Date().toDateString();
-                const taskDailyCount = this.dailyTaskCounts[userId]?.[today]?.[taskId] || 0;
-                if (taskDailyCount >= 125) return { canComplete: false, timeRemaining: 0, reason: 'task_daily_limit', taskDailyCount, dailyTotalCount: this.getDailyTotalCount(userId, today) };
+                
+                // Get daily counts from Firebase userData first, then fallback to local
+                let dailyCounts = {};
+                if (this.userData && this.userData.dailyTaskCounts) {
+                    dailyCounts = this.userData.dailyTaskCounts;
+                }
+                
+                const taskDailyCount = dailyCounts[today]?.[taskId] || 
+                                      this.dailyTaskCounts[userId]?.[today]?.[taskId] || 0;
+                
                 const dailyTotalCount = this.getDailyTotalCount(userId, today);
-                if (dailyTotalCount >= 500) return { canComplete: false, timeRemaining: 0, reason: 'total_daily_limit', taskDailyCount, dailyTotalCount };
-                if (!this.taskCompletions[userId]?.[taskId]) return { canComplete: true, timeRemaining: 0, taskDailyCount, dailyTotalCount };
+                
+                // Check limits
+                if (taskDailyCount >= 125) {
+                    return { canComplete: false, timeRemaining: 0, reason: 'task_daily_limit', taskDailyCount, dailyTotalCount };
+                }
+                
+                if (dailyTotalCount >= 500) {
+                    return { canComplete: false, timeRemaining: 0, reason: 'total_daily_limit', taskDailyCount, dailyTotalCount };
+                }
+                
+                // Check cooldown
+                if (!this.taskCompletions[userId]?.[taskId]) {
+                    return { canComplete: true, timeRemaining: 0, taskDailyCount, dailyTotalCount };
+                }
+                
                 const lastCompletion = new Date(this.taskCompletions[userId][taskId].lastCompleted);
                 const timeDiff = Date.now() - lastCompletion;
                 const cooldownTime = 60 * 1000;
-                if (timeDiff >= cooldownTime) return { canComplete: true, timeRemaining: 0, taskDailyCount, dailyTotalCount };
-                else return { canComplete: false, timeRemaining: Math.ceil((cooldownTime - timeDiff) / 1000), reason: 'cooldown', taskDailyCount, dailyTotalCount };
+                
+                if (timeDiff >= cooldownTime) {
+                    return { canComplete: true, timeRemaining: 0, taskDailyCount, dailyTotalCount };
+                } else {
+                    return { canComplete: false, timeRemaining: Math.ceil((cooldownTime - timeDiff) / 1000), reason: 'cooldown', taskDailyCount, dailyTotalCount };
+                }
             }
             
+            // FIXED: Get daily total count from Firebase userData
             getDailyTotalCount(userId, date) {
                 const today = date || new Date().toDateString();
+                
+                // First try from Firebase userData
+                if (this.userData && this.userData.dailyTaskCounts && this.userData.dailyTaskCounts[today]) {
+                    return Object.values(this.userData.dailyTaskCounts[today]).reduce((a,b) => a + b, 0);
+                }
+                
+                // Then try local cache
                 const counts = this.dailyTaskCounts[userId]?.[today] || {};
-                return Object.values(counts).reduce((a,b)=>a+b,0);
+                return Object.values(counts).reduce((a,b) => a + b, 0);
             }
             
             getTaskDailyCount(userId, taskId) {
                 const today = new Date().toDateString();
+                
+                // First try from Firebase userData
+                if (this.userData && this.userData.dailyTaskCounts && this.userData.dailyTaskCounts[today]) {
+                    return this.userData.dailyTaskCounts[today][taskId] || 0;
+                }
+                
+                // Then try local cache
                 return this.dailyTaskCounts[userId]?.[today]?.[taskId] || 0;
             }
             
             getTimeUntilReset() {
                 const now = new Date();
-                const tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate()+1); tomorrow.setHours(0,0,0,0);
+                const tomorrow = new Date(now); 
+                tomorrow.setDate(tomorrow.getDate() + 1); 
+                tomorrow.setHours(0, 0, 0, 0);
                 return tomorrow.getTime() - now.getTime();
             }
             
             async getUserByReferralCode(code) {
                 try { 
                     const snapshot = await database.ref('users').orderByChild('referralCode').equalTo(code).once('value');
-                    if (snapshot.exists()) { const data = snapshot.val(); const userId = Object.keys(data)[0]; return { id: userId, ...data[userId] }; }
+                    if (snapshot.exists()) { 
+                        const data = snapshot.val(); 
+                        const userId = Object.keys(data)[0]; 
+                        return { id: userId, ...data[userId] }; 
+                    }
                     return null;
                 } catch (error) { console.error('Error getting user by referral code:', error); return null; }
             }
@@ -2817,7 +2922,7 @@
 
         const userManager = new FirebaseUserManager();
         
-        // ৪টি টাস্ক - ইন্টারস্টিশিয়াল টাস্ক (task5) ২য় পজিশনে, প্রতি ক্লিকে অ্যাড আসবে (রিওয়ার্ড অ্যাডের মতো)
+        // ৪টি টাস্ক - ইন্টারস্টিশিয়াল টাস্ক (task5) ২য় পজিশনে, প্রতি ক্লিকে অ্যাড আসবে
         const tasks = [
             { id: 'task1', title: 'Watch Rewarded Ad & Earn', description: 'Watch the rewarded ad completely to earn 150 Pepe! Daily limit: 125 times', reward: 150, type: 'rewardedAd', cooldown: 60, dailyLimit: 125, isPepe: true },
             { id: 'task5', title: 'Watch Interstitial Ad & Earn', description: 'Watch interstitial ad to earn 150 Pepe instantly! Daily limit: 125 times', reward: 150, type: 'interstitial', cooldown: 60, dailyLimit: 125, isPepe: true },
@@ -3040,11 +3145,30 @@
                                 let userData = await userManager.getUserData(user.uid);
                                 if (!userData) {
                                     const userReferralCode = userManager.generateReferralCode(user.email);
-                                    userData = { email: user.email.toLowerCase(), referralCode: userReferralCode, balance: 0, totalEarned:0, referralBonus:0, referrals:[], referredBy:null, createdAt: new Date().toISOString(), fairUseVerified:false, withdrawalHistory:[], tasksCompleted:[], lastActive: new Date().toISOString(), lastWithdrawalMonth:null };
+                                    userData = { 
+                                        email: user.email.toLowerCase(), 
+                                        referralCode: userReferralCode, 
+                                        balance: 0, 
+                                        totalEarned:0, 
+                                        referralBonus:0, 
+                                        referrals:[], 
+                                        referredBy:null, 
+                                        createdAt: new Date().toISOString(), 
+                                        fairUseVerified:false, 
+                                        withdrawalHistory:[], 
+                                        tasksCompleted:[],
+                                        dailyTaskCounts: {}, // FIXED: Add dailyTaskCounts
+                                        lastActive: new Date().toISOString(), 
+                                        lastWithdrawalMonth:null 
+                                    };
                                     await database.ref('users/'+user.uid).set(userData);
                                 }
                                 userManager.currentUser = user;
                                 userManager.userData = userData;
+                                
+                                // FIXED: Load daily counts from Firebase
+                                await userManager.loadDailyCountsFromFirebase(user.uid);
+                                
                                 await loadingManager.animateProgress(100); await loadingManager.completeStep(4);
                                 setTimeout(() => { loadingManager.hide(); setTimeout(() => { showMainApp(user, userData); }, 300); }, 800);
                             } else {
@@ -3123,7 +3247,7 @@
             updateTimer(); setInterval(updateTimer,1000);
         }
         
-        // ৪টি টাস্ক লোড করুন (ইন্টারস্টিশিয়াল টাস্ক ২য় পজিশনে)
+        // ৪টি টাস্ক লোড করুন
         function loadTasks() {
             tasksContainer.innerHTML = '';
             tasks.forEach(task => {
@@ -3136,19 +3260,38 @@
             updateTaskStatuses();
         }
         
-        // টাস্ক স্ট্যাটাস আপডেট - ডেইলি লিমিট ৫০০
+        // FIXED: টাস্ক স্ট্যাটাস আপডেট - Firebase থেকে সঠিক কাউন্ট দেখাবে
         function updateTaskStatuses() {
             const user = userManager.currentUser; if (!user) return;
             const today = new Date().toDateString();
-            const dailyTotal = userManager.getDailyTotalCount(user.uid, today);
+            
+            // Get daily total from Firebase userData
+            let dailyTotal = 0;
+            if (userManager.userData && userManager.userData.dailyTaskCounts && userManager.userData.dailyTaskCounts[today]) {
+                dailyTotal = Object.values(userManager.userData.dailyTaskCounts[today]).reduce((a,b) => a + b, 0);
+            } else {
+                dailyTotal = userManager.getDailyTotalCount(user.uid, today);
+            }
+            
             taskLimitInfo.textContent = `${500 - dailyTotal} attempts left`;
+            
             tasks.forEach(task => {
                 const status = document.getElementById(`task-status-${task.id}`);
                 const btn = document.getElementById(`start-task-${task.id}`);
                 const prog = document.getElementById(`task-progress-${task.id}`);
-                const taskDaily = userManager.getTaskDailyCount(user.uid, task.id);
+                
+                // Get task daily count from Firebase userData
+                let taskDaily = 0;
+                if (userManager.userData && userManager.userData.dailyTaskCounts && userManager.userData.dailyTaskCounts[today]) {
+                    taskDaily = userManager.userData.dailyTaskCounts[today][task.id] || 0;
+                } else {
+                    taskDaily = userManager.getTaskDailyCount(user.uid, task.id);
+                }
+                
                 prog.textContent = `Today: ${taskDaily}/${task.dailyLimit}`;
+                
                 const can = userManager.canCompleteTask(user.uid, task.id);
+                
                 if (can.reason === 'total_daily_limit') {
                     status.style.display = 'block'; status.className = 'task-status limited';
                     status.innerHTML = `<i class="fas fa-ban"></i> Daily total limit reached (500/500)`;
@@ -3177,7 +3320,7 @@
             const btn = document.getElementById(`start-task-${task.id}`);
             btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
             
-            // ইন্টারস্টিশিয়াল টাস্ক - রিওয়ার্ড অ্যাডের মতোই প্রতি ক্লিকে অ্যাড আসবে
+            // ইন্টারস্টিশিয়াল টাস্ক
             if (task.id === 'task5' || task.type === 'interstitial') {
                 if (typeof show_10541383 !== 'undefined') {
                     show_10541383().then(async () => {
@@ -3211,7 +3354,6 @@
             else if (task.id === 'task3') {
                 currentTask = task; taskButtonElement = btn; taskSecondsRemaining = 12; warningTimerDisplay.textContent = taskSecondsRemaining; showModal(timerWarningModal);
             } else if (task.id === 'task4') {
-                // TELEGRAM FIX: Special handling for Telegram WebApp
                 currentTask = task; taskButtonElement = btn; taskSecondsRemaining = 12; warningTimerDisplay.textContent = taskSecondsRemaining; showModal(timerWarningModal);
             }
         }
@@ -3254,26 +3396,20 @@
                     }, 1000); 
                 }
             } else if (currentTask.id === 'task4') {
-                // TELEGRAM FIX: Completely redesigned for Telegram WebApp
                 taskButtonElement.innerHTML = '<i class="fas fa-clock"></i> 12 seconds remaining...';
                 taskStartedTime = Date.now();
                 taskCompleted = false;
                 
-                // Open link with Telegram WebApp if available, otherwise use normal method
                 if (isTelegramWebApp() && typeof Telegram !== 'undefined' && Telegram.WebApp) {
                     try {
-                        // Method 1: Telegram WebApp openLink (opens externally)
                         Telegram.WebApp.openLink(currentTask.link);
                     } catch (e) {
-                        // Method 2: Fallback to normal window.open
                         taskTab = window.open(currentTask.link, '_blank');
                     }
                 } else {
-                    // Normal browser environment
                     taskTab = window.open(currentTask.link, '_blank');
                 }
                 
-                // Start timer immediately
                 taskTimerInterval = setInterval(async () => {
                     const elapsed = Date.now() - taskStartedTime;
                     
@@ -3281,7 +3417,6 @@
                         clearInterval(taskTimerInterval);
                         taskCompleted = true;
                         
-                        // Close tab if it's still open (only in normal browser)
                         if (taskTab && !taskTab.closed) {
                             try { taskTab.close(); } catch(e) {}
                         }
@@ -3298,9 +3433,7 @@
                         const rem = Math.ceil((12000 - elapsed) / 1000);
                         taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${rem} seconds remaining...`;
                         
-                        // Don't check focus in Telegram - it doesn't work properly
                         if (!isTelegramWebApp() && document.hasFocus() && elapsed < 12000) {
-                            // User returned to app early in normal browser
                             clearInterval(taskTimerInterval);
                             if (taskTab && !taskTab.closed) {
                                 try { taskTab.close(); } catch(e) {}
@@ -3316,7 +3449,6 @@
                     }
                 }, 1000);
                 
-                // Tab close detection - only for normal browser
                 if (!isTelegramWebApp() && taskTab) {
                     const tabCheck = setInterval(() => {
                         if (taskCompleted) {
@@ -3475,6 +3607,14 @@
                 if (errorOkBtn) errorOkBtn.addEventListener('click', () => hideModal(errorModal));
                 if (referralBonusOkBtn) referralBonusOkBtn.addEventListener('click', () => hideModal(referralBonusModal));
                 [successModal, errorModal, referralBonusModal, chatModal, timerWarningModal, changePasswordModal].forEach(m => { if (m) m.addEventListener('click', function(e) { if (e.target === this) hideModal(this); }); });
+                
+                // FIXED: Set up periodic task status update
+                setInterval(() => {
+                    if (userManager.currentUser && document.getElementById('task-section').classList.contains('active')) {
+                        updateTaskStatuses();
+                    }
+                }, 5000);
+                
             } catch(e) { console.error("Init error", e); 
                 document.body.innerHTML = `<div style="padding:40px; text-align:center; color:white; background:black;"><h1>Earn For Earn</h1><p>App initialization error. Please refresh the page.</p><button onclick="location.reload()" style="margin-top:20px; padding:10px 20px; background:purple; color:white; border:none; border-radius:10px;">Refresh Page</button></div>`;
             }
