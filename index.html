@@ -2364,7 +2364,7 @@
             </div>
         </div>
         
-        <!-- 12 Second Timer Warning Modal -->
+        <!-- 60 Second Cooldown Warning Modal - Updated from 12 to 60 seconds -->
         <div class="modal timer-modal" id="timerWarningModal">
             <div class="modal-content">
                 <div class="modal-title">
@@ -2373,15 +2373,33 @@
                 </div>
                 <div class="modal-message">
                     <div class="timer-info">
-                        <div class="timer-display" id="warningTimerDisplay">12</div>
+                        <div class="timer-display" id="warningTimerDisplay">60</div>
                         <div class="timer-text">Stay on the next page for 12 seconds to earn your reward</div>
                     </div>
                     <p><strong>⚠️ Warning:</strong> You must stay on the task page for <strong>12 seconds</strong>. If you return before 12 seconds, you will <strong>NOT</strong> receive any reward.</p>
-                    <p>After 12 seconds, you will automatically return to this app and receive <strong>150</strong>.</p>
+                    <p>After 12 seconds, you will automatically return to this app and receive <strong>150 Pepe</strong>.</p>
                 </div>
                 <div class="modal-actions">
                     <button class="modal-btn primary" id="timerOkBtn">OK, I Understand</button>
                     <button class="modal-btn secondary" id="timerCancelBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 60 Second Cooldown Modal - NEW -->
+        <div class="modal" id="cooldownModal">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <i class="fas fa-hourglass-half" style="color: #cccccc; margin-right: 10px;"></i>
+                    Task Cooldown
+                </div>
+                <div class="modal-message" style="text-align: center;">
+                    <div style="font-size: 1.2rem; margin-bottom: 20px;">Please wait</div>
+                    <div id="cooldownTimerDisplay" style="font-size: 3rem; font-weight: bold; color: var(--purple); margin-bottom: 15px;">60</div>
+                    <div style="color: var(--text-secondary);">seconds before starting this task again</div>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn primary" id="cooldownOkBtn" disabled>Wait...</button>
                 </div>
             </div>
         </div>
@@ -2512,6 +2530,7 @@
                 this.taskCompletions = {};
                 this.dailyTaskCounts = {};
                 this.lastResetDate = localStorage.getItem('earnPepeLastResetDate') || new Date().toDateString();
+                this.cooldownTimers = {}; // Track cooldown timers per task
                 
                 // Load saved counts from localStorage as backup
                 try {
@@ -2787,7 +2806,7 @@
                 }
             }
             
-            // FIXED: Complete Task with Firebase daily count persistence
+            // FIXED: Complete Task with Firebase daily count persistence and cooldown tracking
             async completeTask(userId, taskId, reward) {
                 try {
                     const userData = await this.getUserData(userId);
@@ -2826,6 +2845,11 @@
                     // Save to localStorage as backup
                     localStorage.setItem('earnPepeDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
                     
+                    // Set cooldown for this task (60 seconds)
+                    if (!this.taskCompletions[userId]) this.taskCompletions[userId] = {};
+                    if (!this.taskCompletions[userId][taskId]) this.taskCompletions[userId][taskId] = {};
+                    this.taskCompletions[userId][taskId].lastCompleted = new Date().toISOString();
+                    
                     return true;
                 } catch (error) { 
                     console.error('Error completing task:', error); 
@@ -2833,7 +2857,7 @@
                 }
             }
             
-            // FIXED: Check if user can complete task with accurate counts
+            // FIXED: Check if user can complete task with accurate counts and cooldown
             canCompleteTask(userId, taskId) {
                 const today = new Date().toDateString();
                 
@@ -2857,14 +2881,14 @@
                     return { canComplete: false, timeRemaining: 0, reason: 'total_daily_limit', taskDailyCount, dailyTotalCount };
                 }
                 
-                // Check cooldown
+                // Check cooldown - 60 seconds
                 if (!this.taskCompletions[userId]?.[taskId]) {
                     return { canComplete: true, timeRemaining: 0, taskDailyCount, dailyTotalCount };
                 }
                 
                 const lastCompletion = new Date(this.taskCompletions[userId][taskId].lastCompleted);
                 const timeDiff = Date.now() - lastCompletion;
-                const cooldownTime = 60 * 1000;
+                const cooldownTime = 60 * 1000; // 60 seconds cooldown
                 
                 if (timeDiff >= cooldownTime) {
                     return { canComplete: true, timeRemaining: 0, taskDailyCount, dailyTotalCount };
@@ -3025,10 +3049,13 @@
         const chatModal = document.getElementById('chatModal');
         const timerWarningModal = document.getElementById('timerWarningModal');
         const changePasswordModal = document.getElementById('changePasswordModal');
+        const cooldownModal = document.getElementById('cooldownModal');
         const successModalMessage = document.getElementById('successModalMessage');
         const errorMessage = document.getElementById('errorMessage');
         const referralBonusMessage = document.getElementById('referralBonusMessage');
         const warningTimerDisplay = document.getElementById('warningTimerDisplay');
+        const cooldownTimerDisplay = document.getElementById('cooldownTimerDisplay');
+        const cooldownOkBtn = document.getElementById('cooldownOkBtn');
         const successOkBtn = document.getElementById('successOkBtn');
         const errorOkBtn = document.getElementById('errorOkBtn');
         const referralBonusOkBtn = document.getElementById('referralBonusOkBtn');
@@ -3055,6 +3082,7 @@
         let taskStartedTime = null;
         let taskCompleted = false;
         let popupAdWindow = null;
+        let cooldownTimerInterval = null;
         
         // Check if running in Telegram
         function isTelegramWebApp() {
@@ -3295,27 +3323,70 @@
                 if (can.reason === 'total_daily_limit') {
                     status.style.display = 'block'; status.className = 'task-status limited';
                     status.innerHTML = `<i class="fas fa-ban"></i> Daily total limit reached (500/500)`;
-                    btn.disabled = true; btn.innerHTML = '<i class="fas fa-ban"></i> Daily Limit Reached';
+                    btn.disabled = true; 
+                    btn.innerHTML = '<i class="fas fa-ban"></i> Daily Limit Reached';
                 } else if (can.reason === 'task_daily_limit') {
                     status.style.display = 'block'; status.className = 'task-status limited';
                     status.innerHTML = `<i class="fas fa-ban"></i> Task daily limit reached (125/125)`;
-                    btn.disabled = true; btn.innerHTML = '<i class="fas fa-ban"></i> Task Limit Reached';
+                    btn.disabled = true; 
+                    btn.innerHTML = '<i class="fas fa-ban"></i> Task Limit Reached';
                 } else if (can.reason === 'cooldown') {
                     status.style.display = 'block'; status.className = 'task-status countdown';
                     status.innerHTML = `<i class="fas fa-clock"></i> Available in ${can.timeRemaining} seconds`;
-                    btn.disabled = true; btn.innerHTML = '<i class="fas fa-clock"></i> On Cooldown';
+                    btn.disabled = true; 
+                    btn.innerHTML = `<i class="fas fa-hourglass-half"></i> Wait ${can.timeRemaining}s`;
                 } else {
-                    status.style.display = 'none'; btn.disabled = false; btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                    status.style.display = 'none'; 
+                    btn.disabled = false; 
+                    btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
                 }
             });
+        }
+        
+        // Show cooldown modal with countdown
+        function showCooldownModal(seconds) {
+            if (!cooldownModal) return;
+            
+            cooldownTimerDisplay.textContent = seconds;
+            cooldownOkBtn.disabled = true;
+            cooldownOkBtn.textContent = `Wait ${seconds}s`;
+            cooldownModal.classList.add('active');
+            
+            let remaining = seconds;
+            if (cooldownTimerInterval) clearInterval(cooldownTimerInterval);
+            
+            cooldownTimerInterval = setInterval(() => {
+                remaining--;
+                cooldownTimerDisplay.textContent = remaining;
+                cooldownOkBtn.textContent = `Wait ${remaining}s`;
+                
+                if (remaining <= 0) {
+                    clearInterval(cooldownTimerInterval);
+                    cooldownOkBtn.disabled = false;
+                    cooldownOkBtn.textContent = 'OK';
+                    cooldownTimerInterval = null;
+                }
+            }, 1000);
         }
         
         async function startTask(task) {
             const user = userManager.currentUser; if (!user) return;
             const can = userManager.canCompleteTask(user.uid, task.id);
-            if (can.reason === 'total_daily_limit') { showModal(errorModal, 'Total daily limit reached! You can complete only 500 tasks per day. Try again tomorrow.'); return; }
-            if (can.reason === 'task_daily_limit') { showModal(errorModal, `Task daily limit reached! You can complete this task only 125 times per day. Try again tomorrow.`); return; }
-            if (can.reason === 'cooldown') { showModal(errorModal, `Please wait ${can.timeRemaining} seconds before starting this task again.`); return; }
+            
+            // Show cooldown modal if in cooldown
+            if (can.reason === 'cooldown') {
+                showCooldownModal(can.timeRemaining);
+                return;
+            }
+            
+            if (can.reason === 'total_daily_limit') { 
+                showModal(errorModal, 'Total daily limit reached! You can complete only 500 tasks per day. Try again tomorrow.'); 
+                return; 
+            }
+            if (can.reason === 'task_daily_limit') { 
+                showModal(errorModal, `Task daily limit reached! You can complete this task only 125 times per day. Try again tomorrow.`); 
+                return; 
+            }
             
             const btn = document.getElementById(`start-task-${task.id}`);
             btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
@@ -3325,7 +3396,8 @@
                 if (typeof show_10541383 !== 'undefined') {
                     show_10541383().then(async () => {
                         await userManager.completeTask(user.uid, task.id, task.reward);
-                        updateUserInfo(userManager.userData); updateTaskStatuses();
+                        updateUserInfo(userManager.userData); 
+                        updateTaskStatuses();
                         showModal(successModal, 'Interstitial ad watched! 150 Pepe has been added to your balance.');
                     }).catch(() => { 
                         btn.disabled=false; btn.innerHTML='<i class="fas fa-play-circle"></i> Start Task'; 
@@ -3334,7 +3406,8 @@
                 } else {
                     setTimeout(async () => { 
                         await userManager.completeTask(user.uid, task.id, task.reward); 
-                        updateUserInfo(userManager.userData); updateTaskStatuses(); 
+                        updateUserInfo(userManager.userData); 
+                        updateTaskStatuses(); 
                         showModal(successModal, 'Task completed! 150 Pepe has been added to your balance.'); 
                     }, 1000);
                 }
@@ -3343,18 +3416,36 @@
                 if (typeof show_10541383 !== 'undefined') {
                     show_10541383().then(async () => {
                         await userManager.completeTask(user.uid, task.id, task.reward);
-                        updateUserInfo(userManager.userData); updateTaskStatuses();
+                        updateUserInfo(userManager.userData); 
+                        updateTaskStatuses();
                         showModal(successModal, 'You have watched an ad! 150 Pepe has been added to your balance.');
-                    }).catch(() => { btn.disabled=false; btn.innerHTML='<i class="fas fa-play-circle"></i> Start Task'; showModal(errorModal, 'Failed to load ad or ad was not completed. Please try again.'); });
+                    }).catch(() => { 
+                        btn.disabled=false; 
+                        btn.innerHTML='<i class="fas fa-play-circle"></i> Start Task'; 
+                        showModal(errorModal, 'Failed to load ad or ad was not completed. Please try again.'); 
+                    });
                 } else {
                     btn.innerHTML = '<i class="fas fa-external-link-alt"></i> Starting...';
-                    setTimeout(async () => { await userManager.completeTask(user.uid, task.id, task.reward); updateUserInfo(userManager.userData); updateTaskStatuses(); showModal(successModal, 'Task completed! 150 Pepe has been added to your balance.'); }, 1000);
+                    setTimeout(async () => { 
+                        await userManager.completeTask(user.uid, task.id, task.reward); 
+                        updateUserInfo(userManager.userData); 
+                        updateTaskStatuses(); 
+                        showModal(successModal, 'Task completed! 150 Pepe has been added to your balance.'); 
+                    }, 1000);
                 }
             } 
             else if (task.id === 'task3') {
-                currentTask = task; taskButtonElement = btn; taskSecondsRemaining = 12; warningTimerDisplay.textContent = taskSecondsRemaining; showModal(timerWarningModal);
+                currentTask = task; 
+                taskButtonElement = btn; 
+                taskSecondsRemaining = 12; 
+                warningTimerDisplay.textContent = taskSecondsRemaining; 
+                showModal(timerWarningModal);
             } else if (task.id === 'task4') {
-                currentTask = task; taskButtonElement = btn; taskSecondsRemaining = 12; warningTimerDisplay.textContent = taskSecondsRemaining; showModal(timerWarningModal);
+                currentTask = task; 
+                taskButtonElement = btn; 
+                taskSecondsRemaining = 12; 
+                warningTimerDisplay.textContent = taskSecondsRemaining; 
+                showModal(timerWarningModal);
             }
         }
         
@@ -3372,12 +3463,23 @@
                             if (elapsed >= 12000) {
                                 clearInterval(taskTimerInterval); taskCompleted = true;
                                 await userManager.completeTask(user.uid, currentTask.id, currentTask.reward);
-                                updateUserInfo(userManager.userData); updateTaskStatuses();
+                                updateUserInfo(userManager.userData); 
+                                updateTaskStatuses();
                                 showModal(successModal, 'Task completed successfully! You stayed for 12 seconds. 150 Pepe has been added to your balance.');
-                                currentTask = null; taskButtonElement = null;
-                            } else { const rem = Math.ceil((12000 - elapsed) / 1000); taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${rem} seconds remaining...`; }
+                                currentTask = null; 
+                                taskButtonElement = null;
+                            } else { 
+                                const rem = Math.ceil((12000 - elapsed) / 1000); 
+                                taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${rem} seconds remaining...`; 
+                            }
                         }, 1000);
-                    }).catch(() => { taskButtonElement.disabled=false; taskButtonElement.innerHTML='<i class="fas fa-play-circle"></i> Start Task'; showModal(errorModal, 'Failed to load ad or ad was not completed. Please try again.'); currentTask=null; taskButtonElement=null; });
+                    }).catch(() => { 
+                        taskButtonElement.disabled=false; 
+                        taskButtonElement.innerHTML='<i class="fas fa-play-circle"></i> Start Task'; 
+                        showModal(errorModal, 'Failed to load ad or ad was not completed. Please try again.'); 
+                        currentTask=null; 
+                        taskButtonElement=null; 
+                    });
                 }
                 else { 
                     taskButtonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Starting...'; 
@@ -3386,9 +3488,11 @@
                         if (elapsed >= 12000) { 
                             clearInterval(taskTimerInterval); 
                             await userManager.completeTask(user.uid, currentTask.id, currentTask.reward); 
-                            updateUserInfo(userManager.userData); updateTaskStatuses(); 
+                            updateUserInfo(userManager.userData); 
+                            updateTaskStatuses(); 
                             showModal(successModal, 'Task completed! 150 Pepe has been added to your balance.'); 
-                            currentTask = null; taskButtonElement = null; 
+                            currentTask = null; 
+                            taskButtonElement = null; 
                         } else { 
                             const rem = Math.ceil((12000 - elapsed) / 1000); 
                             taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${rem} seconds remaining...`; 
@@ -3509,8 +3613,16 @@
             switchSection('home-section');
         }
         
-        function showModal(modal, msg = '') { if (msg) { const e = modal.querySelector('.modal-message'); if (e) e.innerHTML = msg; } modal.classList.add('active'); }
-        function hideModal(modal) { modal.classList.remove('active'); }
+        function showModal(modal, msg = '') { 
+            if (msg) { 
+                const e = modal.querySelector('.modal-message'); 
+                if (e) e.innerHTML = msg; 
+            } 
+            modal.classList.add('active'); 
+        }
+        function hideModal(modal) { 
+            modal.classList.remove('active'); 
+        }
         
         function initApp() {
             try {
@@ -3606,14 +3718,29 @@
                 if (successOkBtn) successOkBtn.addEventListener('click', () => hideModal(successModal));
                 if (errorOkBtn) errorOkBtn.addEventListener('click', () => hideModal(errorModal));
                 if (referralBonusOkBtn) referralBonusOkBtn.addEventListener('click', () => hideModal(referralBonusModal));
-                [successModal, errorModal, referralBonusModal, chatModal, timerWarningModal, changePasswordModal].forEach(m => { if (m) m.addEventListener('click', function(e) { if (e.target === this) hideModal(this); }); });
+                
+                // Cooldown modal OK button
+                if (cooldownOkBtn) {
+                    cooldownOkBtn.addEventListener('click', function() {
+                        hideModal(cooldownModal);
+                        if (cooldownTimerInterval) {
+                            clearInterval(cooldownTimerInterval);
+                            cooldownTimerInterval = null;
+                        }
+                    });
+                }
+                
+                // Close modals when clicking outside
+                [successModal, errorModal, referralBonusModal, chatModal, timerWarningModal, changePasswordModal, cooldownModal].forEach(m => { 
+                    if (m) m.addEventListener('click', function(e) { if (e.target === this) hideModal(this); }); 
+                });
                 
                 // FIXED: Set up periodic task status update
                 setInterval(() => {
                     if (userManager.currentUser && document.getElementById('task-section').classList.contains('active')) {
                         updateTaskStatuses();
                     }
-                }, 5000);
+                }, 1000); // Update every second for accurate cooldown display
                 
             } catch(e) { console.error("Init error", e); 
                 document.body.innerHTML = `<div style="padding:40px; text-align:center; color:white; background:black;"><h1>Earn For Earn</h1><p>App initialization error. Please refresh the page.</p><button onclick="location.reload()" style="margin-top:20px; padding:10px 20px; background:purple; color:white; border:none; border-radius:10px;">Refresh Page</button></div>`;
