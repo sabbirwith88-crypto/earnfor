@@ -5,14 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Earn For Earn - Login & Referral</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Add SDK Script for Rewarded Ads -->
+    <!-- Add SDK Script for Rewarded Ads & Interstitial Ads -->
     <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
-    
-    <!-- Add Popunder Ads Script -->
-    <script src="https://pl28672936.effectivegatecpm.com/08/0a/ab/080aab2a377567d7720d27c1e5249ab3.js"></script>
-    
-    <!-- Adsgram SDK - New Task 5 -->
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -42,32 +36,6 @@
             --success: #4CAF50;
             --error: #f44336;
             --warning: #ff9800;
-            --adsgram: #ff6b00;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-        }
-        
-        :root {
-            --bg-primary: #000000;
-            --bg-secondary: #111111;
-            --bg-card: #1a1a1a;
-            --text-primary: #ffffff;
-            --text-secondary: #cccccc;
-            --border: #333333;
-            --shadow: rgba(0, 0, 0, 0.5);
-            --purple: #8a2be2;
-            --purple-dark: #6a0dad;
-            --blue: #2b6de2;
-            --blue-dark: #1a5ad9;
-            --success: #4CAF50;
-            --error: #f44336;
-            --warning: #ff9800;
-            --adsgram: #ff6b00;
         }
         
         body {
@@ -90,7 +58,6 @@
             box-shadow: 0 0 20px var(--shadow);
         }
         
-        /* Loading Screen with Progress Bar */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -229,7 +196,6 @@
             opacity: 0.7;
         }
         
-        /* Loading Spinner for operations */
         .loading-spinner {
             display: none;
             position: fixed;
@@ -267,7 +233,6 @@
             color: var(--text-secondary);
         }
         
-        /* Login/Signup Screens */
         .auth-screen {
             padding: 30px 20px;
             display: flex;
@@ -410,7 +375,6 @@
             text-decoration: underline;
         }
         
-        /* Main App Screens */
         .header {
             background-color: var(--bg-secondary);
             padding: 15px 20px;
@@ -456,7 +420,6 @@
             display: block;
         }
         
-        /* Home Section */
         .balance-card {
             background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             border-radius: 16px;
@@ -541,7 +504,6 @@
             color: var(--text-secondary);
         }
         
-        /* Rules Section */
         .rules-section {
             background-color: var(--bg-card);
             border-radius: 16px;
@@ -608,7 +570,6 @@
             font-weight: 600;
         }
         
-        /* Information Section */
         .info-section {
             background-color: var(--bg-card);
             border-radius: 16px;
@@ -680,7 +641,6 @@
             background-color: #333333;
         }
         
-        /* Task Section - Updated for 5 tasks */
         .tasks-container {
             margin-top: 10px;
         }
@@ -719,12 +679,6 @@
         
         .task-reward.pepe {
             background-color: var(--purple);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .task-reward.adsgram {
-            background-color: var(--adsgram);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
@@ -799,12 +753,6 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .task-button.adsgram {
-            background-color: var(--adsgram);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
         .task-button.blue {
             background-color: var(--blue);
             color: white;
@@ -817,10 +765,6 @@
         
         .task-button.pepe:hover:not(:disabled) {
             background-color: var(--purple-dark);
-        }
-        
-        .task-button.adsgram:hover:not(:disabled) {
-            background-color: #e65c00;
         }
         
         .task-button.blue:hover:not(:disabled) {
@@ -840,7 +784,6 @@
             text-align: center;
         }
         
-        /* Withdraw Section - Binance (Updated Min: 100,000) */
         .withdraw-method {
             background-color: var(--bg-card);
             border-radius: 12px;
@@ -940,7 +883,6 @@
             color: #cccccc;
         }
         
-        /* Binance Details Form */
         .binance-form {
             background-color: var(--bg-card);
             border-radius: 12px;
@@ -1007,7 +949,6 @@
             transform: none;
         }
         
-        /* Withdrawal History */
         .withdrawal-history-section {
             background-color: var(--bg-card);
             border-radius: 16px;
@@ -1123,7 +1064,6 @@
             margin-top: 5px;
         }
         
-        /* Friends Section */
         .referral-card {
             background-color: #111111;
             border-radius: 16px;
@@ -1354,7 +1294,6 @@
             color: #cccccc;
         }
         
-        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -1415,7 +1354,6 @@
             position: relative;
         }
         
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -1496,12 +1434,6 @@
             color: white;
         }
         
-        .modal-btn.adsgram {
-            background-color: var(--adsgram);
-            color: white;
-        }
-        
-        /* Countdown Timer */
         .countdown-timer {
             font-size: 1.5rem;
             font-weight: bold;
@@ -1517,7 +1449,6 @@
             margin-bottom: 15px;
         }
         
-        /* Change Password Modal */
         .change-password-modal .form-group {
             margin-bottom: 20px;
         }
@@ -1540,7 +1471,6 @@
             transition: all 0.3s;
         }
         
-        /* User Menu */
         .user-menu {
             position: absolute;
             top: 60px;
@@ -1596,12 +1526,10 @@
             color: #cccccc;
         }
         
-        /* Zero state styling */
         .zero-value {
             color: var(--text-secondary) !important;
         }
         
-        /* Success Message */
         .success-message {
             background-color: #1a1a1a;
             border: 1px solid #333333;
@@ -1631,7 +1559,6 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        /* Player Back Modal */
         .player-back-modal .modal-content {
             max-width: 350px;
         }
@@ -1651,7 +1578,6 @@
             margin-top: 15px;
         }
         
-        /* Timer Modal */
         .timer-modal .modal-content {
             max-width: 350px;
         }
@@ -1678,7 +1604,6 @@
             margin-top: 10px;
         }
         
-        /* Payment Schedule Styles */
         .payment-schedule-card {
             background: linear-gradient(135deg, #222222, #1a1a1a);
             border-radius: 16px;
@@ -1727,7 +1652,6 @@
             border: 1px solid var(--text-secondary);
         }
         
-        /* Responsive adjustments */
         @media (max-width: 400px) {
             .app-container {
                 max-width: 100%;
@@ -1810,7 +1734,7 @@
             </div>
         </div>
         
-        <div class="loading-version">Version 2.0.0 - With Adsgram Task</div>
+        <div class="loading-version">Version 2.0.1</div>
     </div>
     
     <!-- Loading Spinner for operations -->
@@ -1913,7 +1837,7 @@
                 </div>
             </div>
             
-            <!-- User Menu -->
+            <!-- User Menu (Simplified - Only Change Password) -->
             <div class="user-menu" id="userMenu">
                 <div class="user-info">
                     <div style="font-weight: 600;" id="menuUserEmail">user@email.com</div>
@@ -1922,10 +1846,6 @@
                 <div class="menu-item" id="changePassword">
                     <i class="fas fa-key"></i>
                     <span>Change Password</span>
-                </div>
-                <div class="menu-item logout" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
                 </div>
             </div>
             
@@ -1937,7 +1857,7 @@
                         <div class="balance-label">Your Pepe</div>
                         <div class="balance-amount" id="balanceAmount">0</div>
                         <div class="pepe-info" id="pepeInfo">
-                            <i class="fas fa-info-circle"></i> Complete tasks to earn Pepe
+                            <i class="fas fa-info-circle"></i> Start earning by completing tasks
                         </div>
                         <button class="earn-button" id="earnBtn">
                             <i class="fas fa-headset"></i> Get Support
@@ -1959,7 +1879,7 @@
                         </div>
                     </div>
                     
-                    <!-- Payment Schedule Card -->
+                    <!-- Payment Schedule Card - Updated min 50000 -->
                     <div class="payment-schedule-card">
                         <div class="info-card-title" style="margin-bottom: 15px;">
                             <i class="fas fa-calendar-alt"></i>
@@ -1969,7 +1889,7 @@
                         <div class="info-card-content">
                             <p><strong>📅 Payment Period:</strong> 3rd - 9th of every month</p>
                             <p><strong>⏰ Processing Time:</strong> Within 7 days during payment period</p>
-                            <p><strong>💰 Minimum Withdrawal:</strong> 100,000 <span style="color: var(--success);">(UPDATED!)</span></p>
+                            <p><strong>💰 Minimum Withdrawal:</strong> 50,000</p>
                             <p><strong>✅ Monthly Limit:</strong> One withdrawal per month</p>
                             <p><strong>📊 Current Status:</strong> <span id="currentPaymentStatus">Loading...</span></p>
                             <p><strong>📆 Next Available:</strong> <span id="nextPaymentDate">Loading...</span></p>
@@ -2005,7 +1925,7 @@
                                     <i class="fas fa-user-check"></i>
                                 </div>
                                 <div class="rule-text">
-                                    <span class="rule-highlight">Age Requirement</span> - You must be at least 18 years old to use this app.
+                                    <span class="rule-highlight">Age Requirement</span> - You must be at least 18 years old to use this app and withdraw.
                                 </div>
                             </li>
                             <li class="rule-item">
@@ -2013,7 +1933,7 @@
                                     <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="rule-text">
-                                    <span class="rule-highlight">Payment Schedule</span> - Payments processed between <span class="rule-pepe">3rd-9th of every month</span>.
+                                    <span class="rule-highlight">Payment Schedule</span> - Payments are processed between <span class="rule-pepe">3rd-9th of every month</span>.
                                 </div>
                             </li>
                             <li class="rule-item">
@@ -2021,18 +1941,18 @@
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
                                 <div class="rule-text">
-                                    <span class="rule-highlight">Monthly Withdrawals</span> - You can withdraw once per month, minimum 100,000 Pepe.
+                                    <span class="rule-highlight">Monthly Withdrawals</span> - You can withdraw once per month during payment period.
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
                 
-                <!-- Task Section - Updated with 5 tasks -->
+                <!-- Task Section - ৪টি টাস্ক, ২য় পজিশনে ইন্টারস্টিশিয়াল অ্যাড (প্রতি ক্লিকে অ্যাড আসবে) -->
                 <div id="task-section" class="content-section">
                     <div class="section-title" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
-                        <h2 style="font-size: 1.3rem; color: white;">Daily Tasks (5 Tasks Available)</h2>
-                        <div id="taskLimitInfo" style="font-size: 0.9rem; color: white;">625 attempts left</div>
+                        <h2 style="font-size: 1.3rem; color: white;">Daily Tasks (4 Tasks Available)</h2>
+                        <div id="taskLimitInfo" style="font-size: 0.9rem; color: white;">500 attempts left</div>
                     </div>
                     
                     <div class="tasks-container" id="tasksContainer">
@@ -2041,10 +1961,9 @@
                     
                     <div class="task-card" style="text-align: center; padding: 25px;">
                         <i class="fas fa-sync-alt" style="font-size: 2rem; color: #cccccc; margin-bottom: 15px;"></i>
-                        <h3 style="margin-bottom: 10px; color: white;">Daily Task Limits</h3>
+                        <h3 style="margin-bottom: 10px; color: white;">Daily Task Limit</h3>
                         <p style="color: var(--text-secondary); margin-bottom: 15px;">
-                            Each task: 125 times/day | Total: 625 attempts/day<br>
-                            New task: Adsgram Rewarded Ads (200 Pepe)!
+                            You can complete each task 125 times per day. Total 500 attempts per day (4 tasks). The limit resets every 24 hours.
                         </p>
                         <div id="resetTimer" style="font-size: 0.85rem; color: #cccccc; margin-top: 10px;">
                             Next reset in: <span id="resetTime">24:00:00</span>
@@ -2052,22 +1971,22 @@
                     </div>
                 </div>
                 
-                <!-- Withdraw Section - Binance (Min: 100,000) -->
+                <!-- Withdraw Section - Binance Only (Min 50000 & History) -->
                 <div id="withdraw-section" class="content-section">
                     <div class="section-title" style="margin-bottom: 20px;">
                         <span style="color: white;">Withdraw to Binance</span>
-                        <span style="color: var(--success); font-size: 0.9rem;">Min: 100,000 Pepe</span>
+                        <span style="color: #cccccc; font-size: 0.9rem;">Min: 50,000</span>
                     </div>
                     
                     <div class="balance-card" style="margin-bottom: 25px;">
                         <div class="balance-label">Available Pepe for withdrawal</div>
                         <div class="balance-amount" id="withdrawBalance">0</div>
                         <div class="pepe-info" style="background-color: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.9);">
-                            <i class="fas fa-exchange-alt"></i> Minimum withdrawal reduced to 100,000 Pepe!
+                            <i class="fas fa-exchange-alt"></i> Withdraw to your Binance wallet
                         </div>
                     </div>
                     
-                    <!-- Payment Schedule Information -->
+                    <!-- Payment Schedule Information - Updated min 50000 -->
                     <div class="payment-schedule-card" style="margin-bottom: 20px;">
                         <div class="info-card-title" style="margin-bottom: 15px;">
                             <i class="fas fa-calendar-check"></i>
@@ -2076,7 +1995,8 @@
                         </div>
                         <div class="info-card-content">
                             <p><strong>📅 Payment Period:</strong> 3rd - 9th of every month</p>
-                            <p><strong>💰 Minimum:</strong> 100,000 | <strong>Monthly Limit:</strong> One withdrawal per month</p>
+                            <p><strong>⏰ Processing:</strong> Within 7 days during this period</p>
+                            <p><strong>💰 Minimum:</strong> 50,000 | <strong>Monthly Limit:</strong> One withdrawal per month</p>
                             <p><strong>✅ Current Status:</strong> <span id="withdrawCurrentStatus" style="color: var(--purple); font-weight: bold;">Checking...</span></p>
                             <p><strong>📆 Next Available:</strong> <span id="withdrawNextDate">Loading...</span></p>
                             <p><strong>🎯 Your Progress:</strong> <span id="withdrawProgress">Loading...</span></p>
@@ -2095,7 +2015,7 @@
                         </div>
                     </div>
                     
-                    <!-- Requirements List - Updated to 100,000 -->
+                    <!-- Requirements List - Updated min 50000 -->
                     <div class="requirements-list">
                         <h4 style="margin-bottom: 15px; font-size: 1rem; color: white;">Withdrawal Requirements</h4>
                         
@@ -2104,7 +2024,7 @@
                                 <i class="fas fa-coins"></i>
                             </div>
                             <div class="requirement-details">
-                                <div class="requirement-title">Minimum Pepe: 100,000</div>
+                                <div class="requirement-title">Minimum Pepe: 50,000</div>
                                 <div class="requirement-status" id="req1Status">Not met</div>
                             </div>
                         </div>
@@ -2145,7 +2065,7 @@
                         <i class="fas fa-arrow-right"></i> Continue to Withdraw
                     </button>
                     
-                    <!-- Binance Details Form -->
+                    <!-- Binance Details Form - Updated min 50000 -->
                     <div class="binance-form" id="binanceForm">
                         <div class="binance-warning">
                             <i class="fas fa-exclamation-triangle"></i>
@@ -2162,8 +2082,8 @@
                         
                         <div class="form-group">
                             <label class="form-label">Withdrawal Amount</label>
-                            <input type="number" id="withdrawAmount" class="form-input" placeholder="100000" min="100000" step="1000" required>
-                            <div class="form-note">Minimum: 100,000, Maximum: Your Pepe</div>
+                            <input type="number" id="withdrawAmount" class="form-input" placeholder="50000" min="50000" step="1000" required>
+                            <div class="form-note">Minimum: 50,000, Maximum: Your Pepe</div>
                         </div>
                         
                         <div class="form-group">
@@ -2191,7 +2111,7 @@
                         </div>
                     </div>
                     
-                    <!-- Withdrawal History Section -->
+                    <!-- WITHDRAWAL HISTORY SECTION -->
                     <div class="withdrawal-history-section">
                         <div class="history-title">
                             <i class="fas fa-clock"></i>
@@ -2208,7 +2128,7 @@
                     </div>
                 </div>
                 
-                <!-- Friends/Referral Section -->
+                <!-- Friends/Referral Section - Enhanced -->
                 <div id="friends-section" class="content-section">
                     <div class="referral-card">
                         <div class="referral-title">Invite Friends & Earn</div>
@@ -2262,7 +2182,7 @@
                     <div id="referralsList" style="display: none;"></div>
                 </div>
                 
-                <!-- Information Section -->
+                <!-- Information Section - Updated min 50000 and 4 tasks -->
                 <div id="info-section" class="content-section">
                     <div class="info-section">
                         <div class="info-title">
@@ -2278,11 +2198,10 @@
                             <div class="info-card-content">
                                 <p><strong>Payment Period:</strong> 3rd - 9th of every month</p>
                                 <p><strong>Processing Time:</strong> Within 7 days during payment period</p>
-                                <p><strong>Minimum Withdrawal:</strong> 100,000 (Reduced!)</p>
+                                <p><strong>Minimum Withdrawal:</strong> 50,000</p>
                                 <p><strong>Monthly Limit:</strong> One withdrawal per month</p>
-                                <p><strong>Task Rewards:</strong> 150-200 Pepe per ad</p>
-                                <p><strong>Daily Task Limits:</strong> Each task 125 times/day, Total 625 attempts/day</p>
-                                <p><strong>New Task:</strong> Adsgram Rewarded Ads - 200 Pepe!</p>
+                                <p><strong>Task Reward:</strong> 150 Pepe per ad</p>
+                                <p><strong>Daily Task Limits:</strong> Each task 125 times/day, Total 500 attempts/day (4 tasks)</p>
                                 <p><strong>Withdrawal Method:</strong> Binance Only</p>
                                 <p><strong>Next Payment Window:</strong> <span id="infoNextPayment">Loading...</span></p>
                             </div>
@@ -2294,13 +2213,14 @@
                                 <span>Rules & Guidelines</span>
                             </div>
                             <div class="info-card-content">
-                                <p>1. <strong>No Cheating:</strong> Using any automated tools, bots, or unfair methods will result in permanent ban.</p>
-                                <p>2. <strong>Age Requirement:</strong> You must be at least 18 years old to use this app.</p>
+                                <p>1. <strong>No Cheating:</strong> Using any automated tools, bots, or unfair methods will result in permanent ban of your account.</p>
+                                <p>2. <strong>Age Requirement:</strong> You must be at least 18 years old to use this app and withdraw.</p>
                                 <p>3. <strong>Fair Use:</strong> Complete tasks honestly. Don't use VPNs or fake information.</p>
-                                <p>4. <strong>Task Limits:</strong> Each task: 125 times/day | Total: 625 attempts/day across all 5 tasks.</p>
+                                <p>4. <strong>Task Limits:</strong> Each task can be completed 125 times per day. Total daily limit is 500 attempts across all 4 tasks.</p>
                                 <p>5. <strong>One Account:</strong> Only one account per person is allowed.</p>
-                                <p>6. <strong>Monthly Withdrawals:</strong> One withdrawal per month during 3rd-9th, minimum 100,000 Pepe.</p>
-                                <p>7. <strong>Minimum Requirements:</strong> Need 100,000 Pepe and 3 referrals to withdraw.</p>
+                                <p>6. <strong>Monthly Withdrawals:</strong> You can withdraw once per month during 3rd-9th payment period.</p>
+                                <p>7. <strong>Payment Processing:</strong> All withdrawals are processed between 3rd-9th of each month.</p>
+                                <p>8. <strong>Minimum Requirements:</strong> Need 50,000 Pepe and 3 referrals to withdraw.</p>
                             </div>
                         </div>
                         
@@ -2367,7 +2287,7 @@
                 <div class="nav-btn-container">
                     <button class="nav-btn" id="infoNavBtn" data-target="info-section">
                         <i class="fas fa-info-circle"></i>
-                        <span>Info</span>
+                        <span>Information</span>
                     </button>
                 </div>
             </div>
@@ -2441,7 +2361,7 @@
             </div>
         </div>
         
-        <!-- 12 Second Timer Warning Modal -->
+        <!-- 12 Second Timer Warning Modal (শুধুমাত্র task3 ও task4 এর জন্য) -->
         <div class="modal timer-modal" id="timerWarningModal">
             <div class="modal-content">
                 <div class="modal-title">
@@ -2454,37 +2374,11 @@
                         <div class="timer-text">Stay on the next page for 12 seconds to earn your reward</div>
                     </div>
                     <p><strong>⚠️ Warning:</strong> You must stay on the task page for <strong>12 seconds</strong>. If you return before 12 seconds, you will <strong>NOT</strong> receive any reward.</p>
-                    <p>After 12 seconds, you will automatically return and receive your reward.</p>
+                    <p>After 12 seconds, you will automatically return to this app and receive <strong>150</strong>.</p>
                 </div>
                 <div class="modal-actions">
                     <button class="modal-btn primary" id="timerOkBtn">OK, I Understand</button>
                     <button class="modal-btn secondary" id="timerCancelBtn">Cancel</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Adsgram Info Modal -->
-        <div class="modal" id="adsgramInfoModal">
-            <div class="modal-content">
-                <div class="modal-title">
-                    <i class="fas fa-ad" style="color: var(--adsgram); margin-right: 10px;"></i>
-                    Adsgram Rewarded Ad
-                </div>
-                <div class="modal-message">
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <i class="fas fa-video" style="font-size: 3rem; color: var(--adsgram);"></i>
-                    </div>
-                    <p><strong>🎥 Watch a short rewarded video ad</strong></p>
-                    <p>• Watch the complete ad to earn <strong>200 Pepe</strong></p>
-                    <p>• If you close early, you will <strong>NOT</strong> receive any reward</p>
-                    <p>• Daily limit: 125 times</p>
-                    <p>• High-quality rewarded ads from Adsgram</p>
-                </div>
-                <div class="modal-actions">
-                    <button class="modal-btn adsgram" id="startAdsgramBtn">
-                        <i class="fas fa-play"></i> Start Watching
-                    </button>
-                    <button class="modal-btn secondary" id="cancelAdsgramBtn">Cancel</button>
                 </div>
             </div>
         </div>
@@ -2542,21 +2436,8 @@
         const auth = firebase.auth();
         const database = firebase.database();
 
-        // Initialize Adsgram AdController
-        let AdController = null;
-        try {
-            if (typeof window.Adsgram !== 'undefined') {
-                AdController = window.Adsgram.init({ blockId: "22794" });
-                console.log("Adsgram initialized successfully");
-            } else {
-                console.warn("Adsgram SDK not loaded yet");
-            }
-        } catch (e) {
-            console.error("Failed to initialize Adsgram:", e);
-        }
-
-        // Loading Manager
-        class LoadingManager {
+        // Loading Progress Management
+        class LoadingManager { 
             constructor() {
                 this.progress = 0;
                 this.totalSteps = 5;
@@ -2618,7 +2499,7 @@
         }
         const loadingManager = new LoadingManager();
 
-        // ---------- UPDATED: FirebaseUserManager with min withdraw 100000 and 5 tasks ----------
+        // FirebaseUserManager - মিনিমাম ৫০০০০, ৪টি টাস্ক, ইন্টারস্টিশিয়াল টাস্ক ২য় পজিশনে (প্রতি ক্লিকে অ্যাড আসবে)
         class FirebaseUserManager {
             constructor() {
                 this.currentUser = null;
@@ -2699,10 +2580,9 @@
                 return "Calculating...";
             }
             
-            // Updated min to 100,000
             getWithdrawalProgress(userData) {
                 const balance = userData.balance || 0;
-                const minWithdrawal = 100000;
+                const minWithdrawal = 50000;
                 if (balance >= minWithdrawal) return "100% - Ready to withdraw!";
                 else {
                     const percentage = Math.min(Math.round((balance / minWithdrawal) * 100), 99);
@@ -2817,13 +2697,12 @@
                 } catch (error) { console.error('Error updating user:', error); return false; }
             }
             
-            // **** UPDATED: Min withdrawal 100,000 ****
             async submitWithdrawal(userId, amount, binanceDetails) {
                 try {
                     const userData = await this.getUserData(userId);
                     if (!userData) return { success: false, message: 'User not found' };
                     if (userData.balance < amount) return { success: false, message: 'Insufficient Pepe' };
-                    if (amount < 100000) return { success: false, message: 'Minimum withdrawal is 100,000 Pepe' };
+                    if (amount < 50000) return { success: false, message: 'Minimum withdrawal is 50,000 Pepe' };
                     if (!this.isWithinPaymentWindow()) {
                         const nextWindow = this.getNextPaymentWindow();
                         return { success: false, message: `Withdrawals only available from 3rd-9th of each month. Next window: ${nextWindow.formatted}` };
@@ -2898,7 +2777,7 @@
                 const taskDailyCount = this.dailyTaskCounts[userId]?.[today]?.[taskId] || 0;
                 if (taskDailyCount >= 125) return { canComplete: false, timeRemaining: 0, reason: 'task_daily_limit', taskDailyCount, dailyTotalCount: this.getDailyTotalCount(userId, today) };
                 const dailyTotalCount = this.getDailyTotalCount(userId, today);
-                if (dailyTotalCount >= 625) return { canComplete: false, timeRemaining: 0, reason: 'total_daily_limit', taskDailyCount, dailyTotalCount };
+                if (dailyTotalCount >= 500) return { canComplete: false, timeRemaining: 0, reason: 'total_daily_limit', taskDailyCount, dailyTotalCount };
                 if (!this.taskCompletions[userId]?.[taskId]) return { canComplete: true, timeRemaining: 0, taskDailyCount, dailyTotalCount };
                 const lastCompletion = new Date(this.taskCompletions[userId][taskId].lastCompleted);
                 const timeDiff = Date.now() - lastCompletion;
@@ -2910,7 +2789,7 @@
             getDailyTotalCount(userId, date) {
                 const today = date || new Date().toDateString();
                 const counts = this.dailyTaskCounts[userId]?.[today] || {};
-                return Object.values(counts).reduce((a,b)=>a+b, 0);
+                return Object.values(counts).reduce((a,b)=>a+b,0);
             }
             
             getTaskDailyCount(userId, taskId) {
@@ -2931,28 +2810,16 @@
                     return null;
                 } catch (error) { console.error('Error getting user by referral code:', error); return null; }
             }
-            
-            async logoutUser() {
-                try {
-                    await auth.signOut();
-                    this.currentUser = null;
-                    this.userData = null;
-                    return { success: true };
-                } catch (error) {
-                    return { success: false, message: error.message };
-                }
-            }
         }
 
         const userManager = new FirebaseUserManager();
         
-        // UPDATED: Task list with 5 tasks - added Adsgram task
+        // ৪টি টাস্ক - ইন্টারস্টিশিয়াল টাস্ক (task5) ২য় পজিশনে, প্রতি ক্লিকে অ্যাড আসবে (রিওয়ার্ড অ্যাডের মতো)
         const tasks = [
             { id: 'task1', title: 'Watch Rewarded Ad & Earn', description: 'Watch the rewarded ad completely to earn 150 Pepe! Daily limit: 125 times', reward: 150, type: 'rewardedAd', cooldown: 60, dailyLimit: 125, isPepe: true },
-            { id: 'task2', title: 'In-App Interstitial Ad', description: 'Watch in-app interstitial ad to earn 150 Pepe! Daily limit: 125 times', reward: 150, type: 'inAppInterstitial', cooldown: 60, dailyLimit: 125, isPepe: true },
+            { id: 'task5', title: 'Watch Interstitial Ad & Earn', description: 'Watch interstitial ad to earn 150 Pepe instantly! Daily limit: 125 times', reward: 150, type: 'interstitial', cooldown: 60, dailyLimit: 125, isPepe: true },
             { id: 'task3', title: 'Watch Rewarded Popup Ad & Earn', description: 'Watch a rewarded popup ad for 12 seconds to earn 150 Pepe! Daily limit: 125 times', reward: 150, type: 'rewardedPopupWithTimer', cooldown: 60, dailyLimit: 125, isPepe: true },
-            { id: 'task4', title: '12 Second & Earn', description: 'Stay 12 seconds to earn 150 Pepe! Daily limit: 125 times', reward: 150, link: 'https://www.effectivegatecpm.com/jcnnadrx80?key=6caea0a5c8cebb4a74b04609684f708f', cooldown: 60, dailyLimit: 125, isPepe: true },
-            { id: 'task5', title: 'Adsgram Rewarded Video', description: 'Watch a high-quality rewarded video ad from Adsgram! Earn 200 Pepe per ad. Daily limit: 125 times', reward: 200, type: 'adsgram', cooldown: 60, dailyLimit: 125, isAdsgram: true }
+            { id: 'task4', title: '12 second & Earn', description: 'Stay 12 second to earn 150 Pepe! Daily limit: 125 times', reward: 150, link: 'https://www.effectivegatecpm.com/jcnnadrx80?key=6caea0a5c8cebb4a74b04609684f708f', cooldown: 60, dailyLimit: 125, isPepe: true }
         ];
         
         // DOM Elements
@@ -2971,7 +2838,6 @@
         const signupPassword = document.getElementById('signup-password');
         const signupConfirmPassword = document.getElementById('signup-confirm-password');
         const signupReferral = document.getElementById('signup-referral');
-        const logoutBtn = document.getElementById('logoutBtn');
         
         const userProfile = document.getElementById('userProfile');
         const userMenu = document.getElementById('userMenu');
@@ -2995,6 +2861,7 @@
         const tasksContainer = document.getElementById('tasksContainer');
         const taskLimitInfo = document.getElementById('taskLimitInfo');
         const resetTime = document.getElementById('resetTime');
+        const pepeInfo = document.getElementById('pepeInfo');
         
         // Payment Schedule Elements
         const paymentStatusIndicator = document.getElementById('paymentStatusIndicator');
@@ -3049,7 +2916,6 @@
         const referralBonusModal = document.getElementById('referralBonusModal');
         const chatModal = document.getElementById('chatModal');
         const timerWarningModal = document.getElementById('timerWarningModal');
-        const adsgramInfoModal = document.getElementById('adsgramInfoModal');
         const changePasswordModal = document.getElementById('changePasswordModal');
         const successModalMessage = document.getElementById('successModalMessage');
         const errorMessage = document.getElementById('errorMessage');
@@ -3060,8 +2926,6 @@
         const referralBonusOkBtn = document.getElementById('referralBonusOkBtn');
         const timerOkBtn = document.getElementById('timerOkBtn');
         const timerCancelBtn = document.getElementById('timerCancelBtn');
-        const startAdsgramBtn = document.getElementById('startAdsgramBtn');
-        const cancelAdsgramBtn = document.getElementById('cancelAdsgramBtn');
         const startChatBtn = document.getElementById('startChatBtn');
         const cancelChatBtn = document.getElementById('cancelChatBtn');
         const changePasswordBtn = document.getElementById('changePassword');
@@ -3073,7 +2937,6 @@
         const cancelChangePasswordBtn = document.getElementById('cancelChangePasswordBtn');
         const infoChatBtn = document.getElementById('infoChatBtn');
         const infoEmailBtn = document.getElementById('infoEmailBtn');
-        const earnBtn = document.getElementById('earnBtn');
         
         // Task timer variables
         let taskTab = null;
@@ -3083,54 +2946,51 @@
         let taskSecondsRemaining = 12;
         let taskStartedTime = null;
         let taskCompleted = false;
+        let popupAdWindow = null;
         
         function showLoading(msg = 'Loading...') { loadingText.textContent = msg; loadingSpinner.classList.add('active'); }
         function hideLoading() { loadingSpinner.classList.remove('active'); }
         
-        // Withdrawal History Display
         function displayWithdrawalHistory(userData) {
             if (!userData) return;
             const history = userData.withdrawalHistory || [];
             if (history.length === 0) {
-                if (zeroWithdrawalHistory) zeroWithdrawalHistory.style.display = 'block';
-                if (withdrawalHistoryList) withdrawalHistoryList.style.display = 'none';
+                zeroWithdrawalHistory.style.display = 'block';
+                withdrawalHistoryList.style.display = 'none';
                 return;
             }
-            if (zeroWithdrawalHistory) zeroWithdrawalHistory.style.display = 'none';
-            if (withdrawalHistoryList) {
-                withdrawalHistoryList.style.display = 'flex';
-                withdrawalHistoryList.innerHTML = '';
+            zeroWithdrawalHistory.style.display = 'none';
+            withdrawalHistoryList.style.display = 'flex';
+            withdrawalHistoryList.innerHTML = '';
+            
+            history.sort((a,b) => new Date(b.date) - new Date(a.date));
+            
+            history.forEach(item => {
+                const date = new Date(item.date).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+                let statusClass = '';
+                let statusText = (item.status || 'pending').toUpperCase();
+                if (item.status === 'pending') statusClass = 'status-pending';
+                else if (item.status === 'approved' || item.status === 'completed') { statusClass = 'status-approved'; statusText = 'APPROVED'; }
+                else if (item.status === 'rejected') statusClass = 'status-rejected';
+                else statusClass = 'status-pending';
                 
-                history.sort((a,b) => new Date(b.date) - new Date(a.date));
-                
-                history.forEach(item => {
-                    const date = new Date(item.date).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
-                    let statusClass = '';
-                    let statusText = (item.status || 'pending').toUpperCase();
-                    if (item.status === 'pending') statusClass = 'status-pending';
-                    else if (item.status === 'approved' || item.status === 'completed') { statusClass = 'status-approved'; statusText = 'APPROVED'; }
-                    else if (item.status === 'rejected') statusClass = 'status-rejected';
-                    else statusClass = 'status-pending';
-                    
-                    const historyItem = document.createElement('div');
-                    historyItem.className = 'history-item';
-                    historyItem.innerHTML = `
-                        <div class="history-header">
-                            <span class="history-id">ID: ${item.id || 'N/A'}</span>
-                            <span class="history-amount">${(item.amount || 0).toLocaleString()} Pepe</span>
-                        </div>
-                        <div class="history-details">
-                            <span class="history-date">${date}</span>
-                            <span class="status-badge ${statusClass}">${statusText}</span>
-                        </div>
-                        <div style="font-size:0.75rem; color:var(--text-secondary);">Method: ${item.method || 'Binance'}</div>
-                    `;
-                    withdrawalHistoryList.appendChild(historyItem);
-                });
-            }
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div class="history-header">
+                        <span class="history-id">ID: ${item.id}</span>
+                        <span class="history-amount">${(item.amount || 0).toLocaleString()} Pepe</span>
+                    </div>
+                    <div class="history-details">
+                        <span class="history-date">${date}</span>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </div>
+                    <div style="font-size:0.75rem; color:var(--text-secondary);">Method: ${item.method || 'Binance'}</div>
+                `;
+                withdrawalHistoryList.appendChild(historyItem);
+            });
         }
         
-        // Update payment schedule
         function updatePaymentSchedule(userData) {
             if (!userData) return;
             const paymentStatus = userManager.getPaymentStatus(userData);
@@ -3138,35 +2998,23 @@
             const nextWithdrawal = userManager.getNextWithdrawalDate(userData);
             const progress = userManager.getWithdrawalProgress(userData);
             
-            if (paymentStatusIndicator) {
-                paymentStatusIndicator.textContent = paymentStatus.text;
-                paymentStatusIndicator.className = `payment-status-indicator payment-status-${paymentStatus.status}`;
-                paymentStatusIndicator.style.color = paymentStatus.color;
-                paymentStatusIndicator.style.borderColor = paymentStatus.color;
-            }
-            if (currentPaymentStatus) {
-                currentPaymentStatus.textContent = paymentStatus.text;
-                currentPaymentStatus.style.color = paymentStatus.color;
-            }
-            if (nextPaymentDate) nextPaymentDate.textContent = nextWithdrawal;
-            if (withdrawalProgress) withdrawalProgress.textContent = progress;
+            paymentStatusIndicator.textContent = paymentStatus.text;
+            paymentStatusIndicator.className = `payment-status-indicator payment-status-${paymentStatus.status}`;
+            paymentStatusIndicator.style.color = paymentStatus.color; paymentStatusIndicator.style.borderColor = paymentStatus.color;
+            currentPaymentStatus.textContent = paymentStatus.text; currentPaymentStatus.style.color = paymentStatus.color;
+            nextPaymentDate.textContent = nextWithdrawal;
+            withdrawalProgress.textContent = progress;
             
-            if (withdrawPaymentStatus) {
-                withdrawPaymentStatus.textContent = paymentStatus.text;
-                withdrawPaymentStatus.className = `payment-status-indicator payment-status-${paymentStatus.status}`;
-                withdrawPaymentStatus.style.color = paymentStatus.color;
-                withdrawPaymentStatus.style.borderColor = paymentStatus.color;
-            }
-            if (withdrawCurrentStatus) {
-                withdrawCurrentStatus.textContent = paymentStatus.text;
-                withdrawCurrentStatus.style.color = paymentStatus.color;
-            }
-            if (withdrawNextDate) withdrawNextDate.textContent = nextWithdrawal;
-            if (withdrawProgress) withdrawProgress.textContent = progress;
-            if (infoNextPayment) infoNextPayment.textContent = nextWindow.formatted;
+            withdrawPaymentStatus.textContent = paymentStatus.text;
+            withdrawPaymentStatus.className = `payment-status-indicator payment-status-${paymentStatus.status}`;
+            withdrawPaymentStatus.style.color = paymentStatus.color; withdrawPaymentStatus.style.borderColor = paymentStatus.color;
+            withdrawCurrentStatus.textContent = paymentStatus.text; withdrawCurrentStatus.style.color = paymentStatus.color;
+            withdrawNextDate.textContent = nextWithdrawal;
+            withdrawProgress.textContent = progress;
+            infoNextPayment.textContent = nextWindow.formatted;
         }
         
-        async function initializeApp() {
+        async function initializeApp() { 
             loadingManager.show();
             await loadingManager.animateProgress(10); await loadingManager.completeStep(0);
             await loadingManager.animateProgress(30); await loadingManager.completeStep(1);
@@ -3182,79 +3030,32 @@
                                 let userData = await userManager.getUserData(user.uid);
                                 if (!userData) {
                                     const userReferralCode = userManager.generateReferralCode(user.email);
-                                    userData = { 
-                                        email: user.email.toLowerCase(), 
-                                        referralCode: userReferralCode, 
-                                        balance: 0, 
-                                        totalEarned: 0, 
-                                        referralBonus: 0, 
-                                        referrals: [], 
-                                        referredBy: null, 
-                                        createdAt: new Date().toISOString(), 
-                                        fairUseVerified: false, 
-                                        withdrawalHistory: [], 
-                                        tasksCompleted: [], 
-                                        lastActive: new Date().toISOString(), 
-                                        lastWithdrawalMonth: null 
-                                    };
-                                    await database.ref('users/' + user.uid).set(userData);
+                                    userData = { email: user.email.toLowerCase(), referralCode: userReferralCode, balance: 0, totalEarned:0, referralBonus:0, referrals:[], referredBy:null, createdAt: new Date().toISOString(), fairUseVerified:false, withdrawalHistory:[], tasksCompleted:[], lastActive: new Date().toISOString(), lastWithdrawalMonth:null };
+                                    await database.ref('users/'+user.uid).set(userData);
                                 }
                                 userManager.currentUser = user;
                                 userManager.userData = userData;
                                 await loadingManager.animateProgress(100); await loadingManager.completeStep(4);
-                                setTimeout(() => { 
-                                    loadingManager.hide(); 
-                                    setTimeout(() => { 
-                                        showMainApp(user, userData); 
-                                    }, 300); 
-                                }, 800);
+                                setTimeout(() => { loadingManager.hide(); setTimeout(() => { showMainApp(user, userData); }, 300); }, 800);
                             } else {
                                 await loadingManager.animateProgress(100); await loadingManager.completeStep(4);
-                                setTimeout(() => { 
-                                    loadingManager.hide(); 
-                                    setTimeout(() => { 
-                                        showLoginScreen(); 
-                                    }, 300); 
-                                }, 800);
+                                setTimeout(() => { loadingManager.hide(); setTimeout(() => { showLoginScreen(); }, 300); }, 800);
                             }
                             resolve();
                         } catch(e) { console.error(e); reject(e); }
                     }, (err) => { clearTimeout(authTimeout); console.error(err); resolve(); });
                 });
-            } catch(e) { 
-                console.error(e); 
+            } catch(e) { console.error(e); 
                 await loadingManager.animateProgress(100); await loadingManager.completeStep(4);
-                setTimeout(() => { 
-                    loadingManager.hide(); 
-                    setTimeout(() => { 
-                        showLoginScreen(); 
-                    }, 300); 
-                }, 800);
+                setTimeout(() => { loadingManager.hide(); setTimeout(() => { showLoginScreen(); }, 300); }, 800);
             }
         }
         
-        function showLoginScreen() { 
-            loginScreen.style.display = 'flex'; 
-            signupScreen.style.display = 'none'; 
-            mainApp.style.display = 'none'; 
-            if (loginEmail) loginEmail.value = ''; 
-            if (loginPassword) loginPassword.value = ''; 
-        }
-        
-        function showSignupScreen() { 
-            loginScreen.style.display = 'none'; 
-            signupScreen.style.display = 'flex'; 
-            mainApp.style.display = 'none'; 
-            if (signupEmail) signupEmail.value = ''; 
-            if (signupPassword) signupPassword.value = ''; 
-            if (signupConfirmPassword) signupConfirmPassword.value = ''; 
-            if (signupReferral) signupReferral.value = ''; 
-        }
+        function showLoginScreen() { loginScreen.style.display='flex'; signupScreen.style.display='none'; mainApp.style.display='none'; loginEmail.value=''; loginPassword.value=''; }
+        function showSignupScreen() { loginScreen.style.display='none'; signupScreen.style.display='flex'; mainApp.style.display='none'; signupEmail.value=''; signupPassword.value=''; signupConfirmPassword.value=''; signupReferral.value=''; }
         
         function showMainApp(user, userData) {
-            loginScreen.style.display = 'none'; 
-            signupScreen.style.display = 'none'; 
-            mainApp.style.display = 'block';
+            loginScreen.style.display='none'; signupScreen.style.display='none'; mainApp.style.display='block';
             updateUserInfo(userData);
             initNavigation();
             loadTasks();
@@ -3266,26 +3067,24 @@
         
         function updateUserInfo(userData) {
             if (!userData) return;
-            if (userInitial) userInitial.textContent = (userData.email || 'U').charAt(0).toUpperCase();
-            if (menuUserEmail) menuUserEmail.textContent = userData.email || '';
-            if (menuReferralCode) menuReferralCode.textContent = userData.referralCode || 'N/A';
-            if (balanceAmount) balanceAmount.textContent = `${(userData.balance || 0).toLocaleString()}`;
-            if (referralsCount) referralsCount.textContent = (userData.referrals || []).length;
-            if (totalEarned) totalEarned.textContent = `${(userData.totalEarned || 0).toLocaleString()}`;
-            if (referralBonus) referralBonus.textContent = `${(userData.referralBonus || 0).toLocaleString()}`;
-            if (withdrawBalance) withdrawBalance.textContent = `${(userData.balance || 0).toLocaleString()}`;
-            if (referralCode) referralCode.textContent = userData.referralCode || 'N/A';
+            userInitial.textContent = userData.email.charAt(0).toUpperCase();
+            menuUserEmail.textContent = userData.email;
+            menuReferralCode.textContent = userData.referralCode || 'N/A';
+            balanceAmount.textContent = `${(userData.balance || 0).toLocaleString()}`;
+            referralsCount.textContent = (userData.referrals || []).length;
+            totalEarned.textContent = `${(userData.totalEarned || 0).toLocaleString()}`;
+            referralBonus.textContent = `${(userData.referralBonus || 0).toLocaleString()}`;
+            withdrawBalance.textContent = `${(userData.balance || 0).toLocaleString()}`;
+            referralCode.textContent = userData.referralCode || 'N/A';
             const refCount = (userData.referrals || []).length;
-            if (totalReferrals) totalReferrals.textContent = `${refCount} ${refCount === 1 ? 'referral' : 'referrals'}`;
-            if (totalReferralsCount) totalReferralsCount.textContent = refCount;
+            totalReferrals.textContent = `${refCount} ${refCount===1?'referral':'referrals'}`;
+            totalReferralsCount.textContent = refCount;
             const totalRefEarnings = (userData.referrals || []).reduce((sum, ref) => sum + (ref.bonus || 0), 0);
-            if (totalReferralEarnings) totalReferralEarnings.textContent = totalRefEarnings.toLocaleString();
+            totalReferralEarnings.textContent = totalRefEarnings.toLocaleString();
             updateReferralsList(userData);
             const balance = userData.balance || 0;
-            if (withdrawAmount) {
-                withdrawAmount.value = balance >= 100000 ? balance : 100000;
-                withdrawAmount.max = balance;
-            }
+            withdrawAmount.value = balance >= 50000 ? balance : 50000;
+            withdrawAmount.max = balance;
             updatePaymentSchedule(userData);
             checkWithdrawalRequirements(userData);
             displayWithdrawalHistory(userData);
@@ -3294,584 +3093,241 @@
         function updateReferralsList(userData) {
             const referrals = userData.referrals || [];
             if (referrals.length > 0) {
-                if (zeroReferrals) zeroReferrals.style.display = 'none';
-                if (referralsList) {
-                    referralsList.style.display = 'block';
-                    referralsList.innerHTML = '';
-                    referrals.forEach((ref, idx) => {
-                        const item = document.createElement('div'); 
-                        item.className = 'friend-item';
-                        item.innerHTML = `
-                            <div class="friend-info">
-                                <div class="friend-avatar">${(ref.email || '').charAt(0).toUpperCase()}</div>
-                                <div class="friend-details">
-                                    <h4>${ref.email || 'Unknown'}</h4>
-                                    <div class="friend-date">${ref.date ? new Date(ref.date).toLocaleDateString() : 'N/A'}</div>
-                                </div>
-                            </div>
-                            <div class="friend-earned">+${(ref.bonus || 0).toLocaleString()}</div>
-                        `;
-                        referralsList.appendChild(item);
-                    });
-                }
-            } else { 
-                if (zeroReferrals) zeroReferrals.style.display = 'block'; 
-                if (referralsList) referralsList.style.display = 'none'; 
-            }
+                zeroReferrals.style.display = 'none';
+                referralsList.style.display = 'block';
+                referralsList.innerHTML = '';
+                referrals.forEach((ref, idx) => {
+                    const item = document.createElement('div'); item.className = 'friend-item';
+                    item.innerHTML = `<div class="friend-info"><div class="friend-avatar">${(ref.email||'').charAt(0).toUpperCase()}</div><div class="friend-details"><h4>${ref.email||'Unknown'}</h4><div class="friend-date">${new Date(ref.date||Date.now()).toLocaleDateString()}</div></div></div><div class="friend-earned">+${(ref.bonus||0).toLocaleString()}</div>`;
+                    referralsList.appendChild(item);
+                });
+            } else { zeroReferrals.style.display = 'block'; referralsList.style.display = 'none'; }
         }
         
         function startResetTimer() {
             function updateTimer() {
                 const t = userManager.getTimeUntilReset();
-                const h = Math.floor(t / (1000 * 60 * 60)), 
-                      m = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60)), 
-                      s = Math.floor((t % (1000 * 60)) / 1000);
-                if (resetTime) resetTime.textContent = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                const h = Math.floor(t/(1000*60*60)), m = Math.floor((t%(1000*60*60))/(1000*60)), s = Math.floor((t%(1000*60))/1000);
+                resetTime.textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
             }
-            updateTimer(); 
-            setInterval(updateTimer, 1000);
+            updateTimer(); setInterval(updateTimer,1000);
         }
         
-        // UPDATED: Load 5 tasks with Adsgram task
+        // ৪টি টাস্ক লোড করুন (ইন্টারস্টিশিয়াল টাস্ক ২য় পজিশনে)
         function loadTasks() {
-            if (!tasksContainer) return;
             tasksContainer.innerHTML = '';
             tasks.forEach(task => {
-                const card = document.createElement('div'); 
-                card.className = 'task-card'; 
-                card.id = `task-${task.id}`;
-                let rewardClass = '';
-                let buttonClass = '';
-                
-                if (task.isAdsgram) {
-                    rewardClass = 'adsgram';
-                    buttonClass = 'adsgram';
-                } else if (task.isPepe) {
-                    rewardClass = 'pepe';
-                    buttonClass = 'pepe';
-                }
-                
-                card.innerHTML = `
-                    <div class="task-header">
-                        <div class="task-title">${task.title}</div>
-                        <div class="task-reward ${rewardClass}">${task.reward.toLocaleString()} Pepe</div>
-                    </div>
-                    <div class="task-description">${task.description}</div>
-                    <button class="task-button ${buttonClass}" id="start-task-${task.id}">
-                        <i class="fas fa-play-circle"></i> Start Task
-                    </button>
-                    <div class="task-status pending" id="task-status-${task.id}" style="display:none;">
-                        <i class="fas fa-clock"></i> Ready to complete
-                    </div>
-                    <div class="task-progress" id="task-progress-${task.id}">
-                        Today: 0/${task.dailyLimit}
-                    </div>
-                `;
+                const card = document.createElement('div'); card.className = 'task-card'; card.id = `task-${task.id}`;
+                let rewardClass = task.isPepe ? 'pepe' : ''; let buttonClass = task.isPepe ? 'pepe' : '';
+                card.innerHTML = `<div class="task-header"><div class="task-title">${task.title}</div><div class="task-reward ${rewardClass}">${task.reward.toLocaleString()} Pepe</div></div><div class="task-description">${task.description}</div><button class="task-button ${buttonClass}" id="start-task-${task.id}"><i class="fas fa-play-circle"></i> Start Task</button><div class="task-status pending" id="task-status-${task.id}" style="display:none;"><i class="fas fa-clock"></i> Ready to complete</div><div class="task-progress" id="task-progress-${task.id}">Today: 0/${task.dailyLimit}</div>`;
                 tasksContainer.appendChild(card);
-                
                 document.getElementById(`start-task-${task.id}`).addEventListener('click', () => startTask(task));
             });
             updateTaskStatuses();
         }
         
+        // টাস্ক স্ট্যাটাস আপডেট - ডেইলি লিমিট ৫০০
         function updateTaskStatuses() {
-            const user = userManager.currentUser; 
-            if (!user) return;
+            const user = userManager.currentUser; if (!user) return;
             const today = new Date().toDateString();
             const dailyTotal = userManager.getDailyTotalCount(user.uid, today);
-            const totalLimit = 625; // 5 tasks * 125 = 625
-            if (taskLimitInfo) taskLimitInfo.textContent = `${totalLimit - dailyTotal} attempts left`;
-            
+            taskLimitInfo.textContent = `${500 - dailyTotal} attempts left`;
             tasks.forEach(task => {
                 const status = document.getElementById(`task-status-${task.id}`);
                 const btn = document.getElementById(`start-task-${task.id}`);
                 const prog = document.getElementById(`task-progress-${task.id}`);
                 const taskDaily = userManager.getTaskDailyCount(user.uid, task.id);
-                
-                if (prog) prog.textContent = `Today: ${taskDaily}/${task.dailyLimit}`;
-                
+                prog.textContent = `Today: ${taskDaily}/${task.dailyLimit}`;
                 const can = userManager.canCompleteTask(user.uid, task.id);
-                
                 if (can.reason === 'total_daily_limit') {
-                    if (status) {
-                        status.style.display = 'block'; 
-                        status.className = 'task-status limited';
-                        status.innerHTML = `<i class="fas fa-ban"></i> Daily total limit reached (625/625)`;
-                    }
-                    if (btn) {
-                        btn.disabled = true; 
-                        btn.innerHTML = '<i class="fas fa-ban"></i> Daily Limit Reached';
-                    }
+                    status.style.display = 'block'; status.className = 'task-status limited';
+                    status.innerHTML = `<i class="fas fa-ban"></i> Daily total limit reached (500/500)`;
+                    btn.disabled = true; btn.innerHTML = '<i class="fas fa-ban"></i> Daily Limit Reached';
                 } else if (can.reason === 'task_daily_limit') {
-                    if (status) {
-                        status.style.display = 'block'; 
-                        status.className = 'task-status limited';
-                        status.innerHTML = `<i class="fas fa-ban"></i> Task daily limit reached (125/125)`;
-                    }
-                    if (btn) {
-                        btn.disabled = true; 
-                        btn.innerHTML = '<i class="fas fa-ban"></i> Task Limit Reached';
-                    }
+                    status.style.display = 'block'; status.className = 'task-status limited';
+                    status.innerHTML = `<i class="fas fa-ban"></i> Task daily limit reached (125/125)`;
+                    btn.disabled = true; btn.innerHTML = '<i class="fas fa-ban"></i> Task Limit Reached';
                 } else if (can.reason === 'cooldown') {
-                    if (status) {
-                        status.style.display = 'block'; 
-                        status.className = 'task-status countdown';
-                        status.innerHTML = `<i class="fas fa-clock"></i> Available in ${can.timeRemaining} seconds`;
-                    }
-                    if (btn) {
-                        btn.disabled = true; 
-                        btn.innerHTML = '<i class="fas fa-clock"></i> On Cooldown';
-                    }
+                    status.style.display = 'block'; status.className = 'task-status countdown';
+                    status.innerHTML = `<i class="fas fa-clock"></i> Available in ${can.timeRemaining} seconds`;
+                    btn.disabled = true; btn.innerHTML = '<i class="fas fa-clock"></i> On Cooldown';
                 } else {
-                    if (status) status.style.display = 'none';
-                    if (btn) {
-                        btn.disabled = false; 
-                        btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                    }
+                    status.style.display = 'none'; btn.disabled = false; btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
                 }
             });
         }
         
         async function startTask(task) {
-            const user = userManager.currentUser; 
-            if (!user) return;
-            
+            const user = userManager.currentUser; if (!user) return;
             const can = userManager.canCompleteTask(user.uid, task.id);
-            
-            if (can.reason === 'total_daily_limit') { 
-                showModal(errorModal, 'Total daily limit reached! You can complete only 625 tasks per day. Try again tomorrow.'); 
-                return; 
-            }
-            if (can.reason === 'task_daily_limit') { 
-                showModal(errorModal, `Task daily limit reached! You can complete this task only 125 times per day. Try again tomorrow.`); 
-                return; 
-            }
-            if (can.reason === 'cooldown') { 
-                showModal(errorModal, `Please wait ${can.timeRemaining} seconds before starting this task again.`); 
-                return; 
-            }
+            if (can.reason === 'total_daily_limit') { showModal(errorModal, 'Total daily limit reached! You can complete only 500 tasks per day. Try again tomorrow.'); return; }
+            if (can.reason === 'task_daily_limit') { showModal(errorModal, `Task daily limit reached! You can complete this task only 125 times per day. Try again tomorrow.`); return; }
+            if (can.reason === 'cooldown') { showModal(errorModal, `Please wait ${can.timeRemaining} seconds before starting this task again.`); return; }
             
             const btn = document.getElementById(`start-task-${task.id}`);
-            if (btn) {
-                btn.disabled = true; 
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-            }
+            btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
             
-            // Task 5: Adsgram Rewarded Video
-            if (task.type === 'adsgram') {
-                // Show info modal first
-                hideModal(adsgramInfoModal);
-                showModal(adsgramInfoModal);
-                
-                // Remove previous listeners and add new ones
-                if (startAdsgramBtn) {
-                    const newStartBtn = startAdsgramBtn.cloneNode(true);
-                    startAdsgramBtn.parentNode.replaceChild(newStartBtn, startAdsgramBtn);
-                    window.startAdsgramBtn = newStartBtn;
-                    
-                    newStartBtn.addEventListener('click', async function() {
-                        hideModal(adsgramInfoModal);
-                        
-                        if (!AdController) {
-                            if (btn) {
-                                btn.disabled = false; 
-                                btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                            }
-                            showModal(errorModal, 'Adsgram SDK not loaded. Please try again later.');
-                            return;
-                        }
-                        
-                        try {
-                            // Show the ad
-                            const result = await AdController.show();
-                            
-                            // User watched ad till the end
-                            await userManager.completeTask(user.uid, task.id, task.reward);
-                            updateUserInfo(userManager.userData);
-                            updateTaskStatuses();
-                            showModal(successModal, `✅ Task completed! You watched a rewarded ad and earned ${task.reward} Pepe!`);
-                            
-                        } catch (error) {
-                            console.error('Adsgram error:', error);
-                            
-                            // User closed ad early or error occurred
-                            if (btn) {
-                                btn.disabled = false; 
-                                btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                            }
-                            
-                            let errorMsg = 'Failed to load ad or ad was not completed. Please try again.';
-                            if (error && error.message) {
-                                errorMsg += ' Error: ' + error.message;
-                            }
-                            showModal(errorModal, errorMsg);
-                        }
-                    });
-                }
-                
-                if (cancelAdsgramBtn) {
-                    const newCancelBtn = cancelAdsgramBtn.cloneNode(true);
-                    cancelAdsgramBtn.parentNode.replaceChild(newCancelBtn, cancelAdsgramBtn);
-                    window.cancelAdsgramBtn = newCancelBtn;
-                    
-                    newCancelBtn.addEventListener('click', function() {
-                        hideModal(adsgramInfoModal);
-                        if (btn) {
-                            btn.disabled = false; 
-                            btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                        }
-                    });
-                }
-                
-                return;
-            }
-            
-            // Task 2: In-App Interstitial
-            if (task.id === 'task2') {
+            // ইন্টারস্টিশিয়াল টাস্ক - রিওয়ার্ড অ্যাডের মতোই প্রতি ক্লিকে অ্যাড আসবে
+            if (task.id === 'task5' || task.type === 'interstitial') {
                 if (typeof show_10541383 !== 'undefined') {
-                    try {
-                        show_10541383({ 
-                            type: 'inApp', 
-                            inAppSettings: { 
-                                frequency: 2, 
-                                capping: 0.1, 
-                                interval: 30, 
-                                timeout: 5, 
-                                everyPage: false 
-                            } 
-                        }).then(async () => {
-                            await userManager.completeTask(user.uid, task.id, task.reward);
-                            updateUserInfo(userManager.userData); 
-                            updateTaskStatuses();
-                            showModal(successModal, 'You have watched an in-app interstitial ad! 150 Pepe has been added to your balance.');
-                        }).catch(() => {
-                            if (btn) {
-                                btn.disabled = false; 
-                                btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                            }
-                            showModal(errorModal, 'Failed to load in-app ad. Please try again.');
-                        });
-                    } catch(e) { 
-                        if (btn) {
-                            btn.disabled = false; 
-                            btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                        }
-                        showModal(errorModal, 'Error showing in-app ad. Please try again.'); 
-                    }
+                    // রিওয়ার্ড অ্যাডের মতোই শুধু show_10541383() কল করুন - প্রতি ক্লিকে অ্যাড আসবে
+                    show_10541383().then(async () => {
+                        await userManager.completeTask(user.uid, task.id, task.reward);
+                        updateUserInfo(userManager.userData); updateTaskStatuses();
+                        showModal(successModal, 'Interstitial ad watched! 150 Pepe has been added to your balance.');
+                    }).catch(() => { 
+                        btn.disabled=false; btn.innerHTML='<i class="fas fa-play-circle"></i> Start Task'; 
+                        showModal(errorModal, 'Failed to load interstitial ad or ad was not completed. Please try again.'); 
+                    });
                 } else {
-                    if (btn) {
-                        btn.innerHTML = '<i class="fas fa-external-link-alt"></i> Starting...';
-                    }
+                    // SDK না থাকলে ডেমো রিওয়ার্ড
                     setTimeout(async () => { 
                         await userManager.completeTask(user.uid, task.id, task.reward); 
-                        updateUserInfo(userManager.userData); 
-                        updateTaskStatuses(); 
+                        updateUserInfo(userManager.userData); updateTaskStatuses(); 
                         showModal(successModal, 'Task completed! 150 Pepe has been added to your balance.'); 
                     }, 1000);
                 }
-                return;
             }
-            
-            // Task 1: Rewarded Ad
-            if (task.type === 'rewardedAd') {
+            else if (task.type === 'rewardedAd') {
                 if (typeof show_10541383 !== 'undefined') {
                     show_10541383().then(async () => {
                         await userManager.completeTask(user.uid, task.id, task.reward);
-                        updateUserInfo(userManager.userData); 
-                        updateTaskStatuses();
+                        updateUserInfo(userManager.userData); updateTaskStatuses();
                         showModal(successModal, 'You have watched an ad! 150 Pepe has been added to your balance.');
-                    }).catch(() => { 
-                        if (btn) {
-                            btn.disabled = false; 
-                            btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                        }
-                        showModal(errorModal, 'Failed to load ad or ad was not completed. Please try again.'); 
-                    });
+                    }).catch(() => { btn.disabled=false; btn.innerHTML='<i class="fas fa-play-circle"></i> Start Task'; showModal(errorModal, 'Failed to load ad or ad was not completed. Please try again.'); });
                 } else {
-                    if (btn) {
-                        btn.innerHTML = '<i class="fas fa-external-link-alt"></i> Starting...';
-                    }
-                    setTimeout(async () => { 
-                        await userManager.completeTask(user.uid, task.id, task.reward); 
-                        updateUserInfo(userManager.userData); 
-                        updateTaskStatuses(); 
-                        showModal(successModal, 'Task completed! 150 Pepe has been added to your balance.'); 
-                    }, 1000);
+                    btn.innerHTML = '<i class="fas fa-external-link-alt"></i> Starting...';
+                    setTimeout(async () => { await userManager.completeTask(user.uid, task.id, task.reward); updateUserInfo(userManager.userData); updateTaskStatuses(); showModal(successModal, 'Task completed! 150 Pepe has been added to your balance.'); }, 1000);
                 }
-                return;
-            }
-            
-            // Task 3 & 4: Timer tasks
-            if (task.id === 'task3' || task.id === 'task4') {
-                currentTask = task; 
-                taskButtonElement = btn; 
-                taskSecondsRemaining = 12; 
-                if (warningTimerDisplay) warningTimerDisplay.textContent = taskSecondsRemaining; 
-                showModal(timerWarningModal);
+            } 
+            else if (task.id === 'task3') {
+                currentTask = task; taskButtonElement = btn; taskSecondsRemaining = 12; warningTimerDisplay.textContent = taskSecondsRemaining; showModal(timerWarningModal);
+            } else if (task.id === 'task4') {
+                currentTask = task; taskButtonElement = btn; taskSecondsRemaining = 12; warningTimerDisplay.textContent = taskSecondsRemaining; showModal(timerWarningModal);
             }
         }
         
         async function startTaskTimer() {
-            const user = userManager.currentUser; 
-            if (!user || !currentTask || !taskButtonElement) return;
+            const user = userManager.currentUser; if (!user || !currentTask || !taskButtonElement) return;
             
             if (currentTask.id === 'task3') {
                 taskButtonElement.innerHTML = '<i class="fas fa-clock"></i> 12 seconds remaining...';
-                taskStartedTime = Date.now(); 
-                taskCompleted = false;
+                taskStartedTime = Date.now(); taskCompleted = false;
                 
                 if (typeof show_10541383 !== 'undefined') {
                     show_10541383('pop').then(async () => {
                         taskTimerInterval = setInterval(async () => {
                             const elapsed = Date.now() - taskStartedTime;
                             if (elapsed >= 12000) {
-                                clearInterval(taskTimerInterval); 
-                                taskCompleted = true;
+                                clearInterval(taskTimerInterval); taskCompleted = true;
                                 await userManager.completeTask(user.uid, currentTask.id, currentTask.reward);
-                                updateUserInfo(userManager.userData); 
-                                updateTaskStatuses();
+                                updateUserInfo(userManager.userData); updateTaskStatuses();
                                 showModal(successModal, 'Task completed successfully! You stayed for 12 seconds. 150 Pepe has been added to your balance.');
-                                currentTask = null; 
-                                taskButtonElement = null;
-                            } else { 
-                                const rem = Math.ceil((12000 - elapsed) / 1000); 
-                                taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${rem} seconds remaining...`; 
-                            }
+                                currentTask = null; taskButtonElement = null;
+                            } else { const rem = Math.ceil((12000 - elapsed) / 1000); taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${rem} seconds remaining...`; }
                         }, 1000);
-                    }).catch(() => { 
-                        if (taskButtonElement) {
-                            taskButtonElement.disabled = false; 
-                            taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                        }
-                        showModal(errorModal, 'Failed to load ad or ad was not completed. Please try again.'); 
-                        currentTask = null; 
-                        taskButtonElement = null; 
-                    });
-                } else { 
-                    if (taskButtonElement) {
-                        taskButtonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Starting...';
-                    }
+                    }).catch(() => { taskButtonElement.disabled=false; taskButtonElement.innerHTML='<i class="fas fa-play-circle"></i> Start Task'; showModal(errorModal, 'Failed to load ad or ad was not completed. Please try again.'); currentTask=null; taskButtonElement=null; });
+                }
+                else { 
+                    taskButtonElement.innerHTML = '<i class="fas fa-external-link-alt"></i> Starting...'; 
                     taskTimerInterval = setInterval(async () => { 
                         const elapsed = Date.now() - taskStartedTime; 
                         if (elapsed >= 12000) { 
                             clearInterval(taskTimerInterval); 
                             await userManager.completeTask(user.uid, currentTask.id, currentTask.reward); 
-                            updateUserInfo(userManager.userData); 
-                            updateTaskStatuses(); 
+                            updateUserInfo(userManager.userData); updateTaskStatuses(); 
                             showModal(successModal, 'Task completed! 150 Pepe has been added to your balance.'); 
-                            currentTask = null; 
-                            taskButtonElement = null; 
+                            currentTask = null; taskButtonElement = null; 
                         } else { 
                             const rem = Math.ceil((12000 - elapsed) / 1000); 
-                            if (taskButtonElement) taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${rem} seconds remaining...`; 
+                            taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${rem} seconds remaining...`; 
                         } 
                     }, 1000); 
                 }
             } else if (currentTask.id === 'task4') {
                 taskTab = window.open(currentTask.link, '_blank');
-                if (!taskTab) { 
-                    showModal(errorModal, 'Please allow pop-ups to start the task.'); 
-                    if (taskButtonElement) {
-                        taskButtonElement.disabled = false; 
-                        taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                    }
-                    return; 
-                }
-                
-                if (taskButtonElement) {
-                    taskButtonElement.innerHTML = '<i class="fas fa-clock"></i> 12 seconds remaining...';
-                }
-                taskStartedTime = Date.now(); 
-                taskCompleted = false;
-                
+                if (!taskTab) { showModal(errorModal, 'Please allow pop-ups to start the task.'); taskButtonElement.disabled=false; taskButtonElement.innerHTML='<i class="fas fa-play-circle"></i> Start Task'; return; }
+                taskButtonElement.innerHTML = '<i class="fas fa-clock"></i> 12 seconds remaining...';
+                taskStartedTime = Date.now(); taskCompleted = false;
                 taskTimerInterval = setInterval(async () => {
                     const elapsed = Date.now() - taskStartedTime;
                     if (elapsed >= 12000) {
-                        clearInterval(taskTimerInterval); 
-                        taskCompleted = true;
+                        clearInterval(taskTimerInterval); taskCompleted = true;
                         if (taskTab && !taskTab.closed) taskTab.close();
                         await userManager.completeTask(user.uid, currentTask.id, currentTask.reward);
-                        updateUserInfo(userManager.userData); 
-                        updateTaskStatuses();
+                        updateUserInfo(userManager.userData); updateTaskStatuses();
                         showModal(successModal, 'Task completed successfully! You stayed for 12 seconds. 150 Pepe has been added to your balance.');
-                        currentTask = null; 
-                        taskButtonElement = null; 
-                        taskTab = null;
+                        currentTask = null; taskButtonElement = null; taskTab = null;
                     } else {
                         const rem = Math.ceil((12000 - elapsed) / 1000);
-                        if (taskButtonElement) taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${rem} seconds remaining...`;
-                        
+                        taskButtonElement.innerHTML = `<i class="fas fa-clock"></i> ${rem} seconds remaining...`;
                         if (document.hasFocus() && elapsed < 12000) {
                             clearInterval(taskTimerInterval);
                             if (taskTab && !taskTab.closed) taskTab.close();
-                            if (taskButtonElement) {
-                                taskButtonElement.disabled = false; 
-                                taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                            }
+                            taskButtonElement.disabled=false; taskButtonElement.innerHTML='<i class="fas fa-play-circle"></i> Start Task';
                             showModal(errorModal, 'You returned before 12 seconds! No reward given.');
-                            currentTask = null; 
-                            taskButtonElement = null; 
-                            taskTab = null;
+                            currentTask = null; taskButtonElement = null; taskTab = null;
                         }
                     }
                 }, 1000);
-                
                 const tabCheck = setInterval(() => {
                     if (taskCompleted) { clearInterval(tabCheck); return; }
-                    if (taskTab && taskTab.closed) {
-                        clearInterval(tabCheck); 
-                        clearInterval(taskTimerInterval);
+                    if (taskTab.closed) {
+                        clearInterval(tabCheck); clearInterval(taskTimerInterval);
                         if (!taskCompleted) {
-                            if (taskButtonElement) {
-                                taskButtonElement.disabled = false; 
-                                taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                            }
+                            taskButtonElement.disabled=false; taskButtonElement.innerHTML='<i class="fas fa-play-circle"></i> Start Task';
                             showModal(errorModal, 'You closed the tab before 12 seconds! No reward given.');
-                            currentTask = null; 
-                            taskButtonElement = null; 
-                            taskTab = null;
+                            currentTask = null; taskButtonElement = null; taskTab = null;
                         }
                     }
                 }, 500);
             }
         }
         
-        // Updated check min to 100,000
         function checkWithdrawalRequirements(userData) {
             if (!userData) return false;
             let allMet = true;
-            
-            // Requirement 1: Balance >= 100,000
-            if (userData.balance >= 100000) {
-                req1Status.textContent = 'Met'; 
-                req1Status.className = 'requirement-status completed'; 
-                req1Icon.innerHTML = '<i class="fas fa-check"></i>'; 
-                req1Icon.className = 'requirement-icon completed';
-            } else { 
-                req1Status.textContent = `Need ${(100000 - userData.balance).toLocaleString()} more Pepe`; 
-                req1Status.className = 'requirement-status'; 
-                req1Icon.innerHTML = '<i class="fas fa-coins"></i>'; 
-                req1Icon.className = 'requirement-icon pending'; 
-                allMet = false; 
-            }
-            
-            // Requirement 2: 3 Referrals
+            if (userData.balance >= 50000) {
+                req1Status.textContent = 'Met'; req1Status.className = 'requirement-status completed'; req1Icon.innerHTML = '<i class="fas fa-check"></i>'; req1Icon.className = 'requirement-icon completed';
+            } else { req1Status.textContent = `Need ${(50000 - userData.balance).toLocaleString()} more Pepe`; req1Status.className = 'requirement-status'; req1Icon.innerHTML = '<i class="fas fa-coins"></i>'; req1Icon.className = 'requirement-icon pending'; allMet = false; }
             if ((userData.referrals || []).length >= 3) {
-                req2Status.textContent = 'Met'; 
-                req2Status.className = 'requirement-status completed'; 
-                req2Icon.innerHTML = '<i class="fas fa-check"></i>'; 
-                req2Icon.className = 'requirement-icon completed';
-            } else { 
-                req2Status.textContent = `Need ${3 - (userData.referrals || []).length} more referrals`; 
-                req2Status.className = 'requirement-status'; 
-                req2Icon.innerHTML = '<i class="fas fa-user-friends"></i>'; 
-                req2Icon.className = 'requirement-icon pending'; 
-                allMet = false; 
-            }
-            
-            // Requirement 3: Payment Window
+                req2Status.textContent = 'Met'; req2Status.className = 'requirement-status completed'; req2Icon.innerHTML = '<i class="fas fa-check"></i>'; req2Icon.className = 'requirement-icon completed';
+            } else { req2Status.textContent = `Need ${3 - (userData.referrals || []).length} more referrals`; req2Status.className = 'requirement-status'; req2Icon.innerHTML = '<i class="fas fa-user-friends"></i>'; req2Icon.className = 'requirement-icon pending'; allMet = false; }
             const within = userManager.isWithinPaymentWindow();
-            if (within) { 
-                req3Status.textContent = 'Available (3rd-9th)'; 
-                req3Status.className = 'requirement-status completed'; 
-                req3Icon.innerHTML = '<i class="fas fa-check"></i>'; 
-                req3Icon.className = 'requirement-icon completed';
-            } else { 
-                req3Status.textContent = 'Wait for payment window (3rd-9th)'; 
-                req3Status.className = 'requirement-status'; 
-                req3Icon.innerHTML = '<i class="fas fa-calendar-alt"></i>'; 
-                req3Icon.className = 'requirement-icon pending'; 
-                allMet = false; 
-            }
-            
-            // Requirement 4: No withdrawal this month
+            if (within) { req3Status.textContent = 'Available (3rd-9th)'; req3Status.className = 'requirement-status completed'; req3Icon.innerHTML = '<i class="fas fa-check"></i>'; req3Icon.className = 'requirement-icon completed'; }
+            else { req3Status.textContent = 'Wait for payment window (3rd-9th)'; req3Status.className = 'requirement-status'; req3Icon.innerHTML = '<i class="fas fa-calendar-alt"></i>'; req3Icon.className = 'requirement-icon pending'; allMet = false; }
             const hasWithdrawn = userManager.hasWithdrawnThisMonth(userData);
-            if (!hasWithdrawn) { 
-                req4Status.textContent = 'Not withdrawn this month'; 
-                req4Status.className = 'requirement-status completed'; 
-                req4Icon.innerHTML = '<i class="fas fa-check"></i>'; 
-                req4Icon.className = 'requirement-icon completed';
-            } else { 
-                req4Status.textContent = 'Already withdrawn this month'; 
-                req4Status.className = 'requirement-status'; 
-                req4Icon.innerHTML = '<i class="fas fa-ban"></i>'; 
-                req4Icon.className = 'requirement-icon pending'; 
-                allMet = false; 
-            }
-            
-            if (allMet) { 
-                if (nextButton) {
-                    nextButton.disabled = false; 
-                    nextButton.classList.add('active');
-                }
-            } else { 
-                if (nextButton) {
-                    nextButton.disabled = true; 
-                    nextButton.classList.remove('active');
-                }
-            }
+            if (!hasWithdrawn) { req4Status.textContent = 'Not withdrawn this month'; req4Status.className = 'requirement-status completed'; req4Icon.innerHTML = '<i class="fas fa-check"></i>'; req4Icon.className = 'requirement-icon completed'; }
+            else { req4Status.textContent = 'Already withdrawn this month'; req4Status.className = 'requirement-status'; req4Icon.innerHTML = '<i class="fas fa-ban"></i>'; req4Icon.className = 'requirement-icon pending'; allMet = false; }
+            if (allMet) { nextButton.disabled = false; nextButton.classList.add('active'); }
+            else { nextButton.disabled = true; nextButton.classList.remove('active'); }
             return allMet;
         }
         
         function initNavigation() {
             const navBtns = document.querySelectorAll('.nav-btn');
             const sections = document.querySelectorAll('.content-section');
-            
             function switchSection(targetId) {
                 sections.forEach(s => s.classList.remove('active'));
-                const target = document.getElementById(targetId); 
-                if (target) target.classList.add('active');
-                
+                const target = document.getElementById(targetId); if (target) target.classList.add('active');
                 navBtns.forEach(b => b.classList.remove('active'));
-                const activeBtn = document.querySelector(`.nav-btn[data-target="${targetId}"]`); 
-                if (activeBtn) activeBtn.classList.add('active');
-                
-                if (targetId !== 'withdraw-section') { 
-                    if (binanceForm) binanceForm.classList.remove('active'); 
-                    if (successMessage) successMessage.classList.remove('active'); 
-                    if (nextButton) nextButton.classList.remove('active'); 
-                } else { 
-                    const ud = userManager.userData; 
-                    if (ud) { 
-                        checkWithdrawalRequirements(ud); 
-                        updatePaymentSchedule(ud); 
-                        displayWithdrawalHistory(ud); 
-                    } 
-                }
-                
+                const activeBtn = document.querySelector(`.nav-btn[data-target="${targetId}"]`); if (activeBtn) activeBtn.classList.add('active');
+                if (targetId !== 'withdraw-section') { binanceForm.classList.remove('active'); successMessage.classList.remove('active'); nextButton.classList.remove('active'); }
+                else { const ud = userManager.userData; if (ud) { checkWithdrawalRequirements(ud); updatePaymentSchedule(ud); displayWithdrawalHistory(ud); } }
                 if (targetId === 'task-section') updateTaskStatuses();
             }
-            
-            navBtns.forEach(btn => {
-                btn.addEventListener('click', function() { 
-                    switchSection(this.getAttribute('data-target')); 
-                });
-            });
-            
+            navBtns.forEach(btn => btn.addEventListener('click', function() { switchSection(this.getAttribute('data-target')); }));
             switchSection('home-section');
         }
         
-        function showModal(modal, msg = '') { 
-            if (msg) { 
-                const e = modal.querySelector('.modal-message'); 
-                if (e) e.innerHTML = msg; 
-            } 
-            modal.classList.add('active'); 
-        }
-        
-        function hideModal(modal) { 
-            modal.classList.remove('active'); 
-        }
+        function showModal(modal, msg = '') { if (msg) { const e = modal.querySelector('.modal-message'); if (e) e.innerHTML = msg; } modal.classList.add('active'); }
+        function hideModal(modal) { modal.classList.remove('active'); }
         
         function initApp() {
             try {
                 initializeApp();
-                
-                // Auth screen toggles
                 if (goToSignup) goToSignup.addEventListener('click', showSignupScreen);
                 if (goToLogin) goToLogin.addEventListener('click', showLoginScreen);
-                
-                // Login form
                 if (loginForm) {
                     loginForm.addEventListener('submit', async function(e) {
                         e.preventDefault();
@@ -3884,239 +3340,89 @@
                         else showModal(errorModal, res.message);
                     });
                 }
-                
-                // Signup form
                 if (signupForm) {
                     signupForm.addEventListener('submit', async function(e) {
                         e.preventDefault();
-                        const email = signupEmail.value.trim(), 
-                              pass = signupPassword.value, 
-                              conf = signupConfirmPassword.value, 
-                              ref = signupReferral.value.trim().toUpperCase();
-                        
+                        const email = signupEmail.value.trim(), pass = signupPassword.value, conf = signupConfirmPassword.value, ref = signupReferral.value.trim().toUpperCase();
                         if (!email || !pass || !conf) { showModal(errorModal, 'Please fill in all required fields'); return; }
                         if (pass !== conf) { showModal(errorModal, 'Passwords do not match'); return; }
                         if (pass.length < 6) { showModal(errorModal, 'Password must be at least 6 characters'); return; }
-                        
                         if (ref) {
                             showLoading('Checking referral code...');
                             const referrer = await userManager.getUserByReferralCode(ref);
                             hideLoading();
                             if (!referrer) { showModal(errorModal, 'Invalid referral code'); return; }
                         }
-                        
                         showLoading('Creating account...');
                         const res = await userManager.createUser(email, pass, ref || null);
                         hideLoading();
-                        
                         if (res.success) {
                             if (res.hasReferralBonus) showModal(referralBonusModal, 'Congratulations! You received 500 Pepe referral bonus for signing up with a referral code.');
                             else showModal(successModal, 'Account created successfully! Welcome to Earn For Earn.');
-                            
                             const loginRes = await userManager.loginUser(email, pass);
                             if (loginRes.success) showMainApp(loginRes.user, loginRes.userData);
                         } else showModal(errorModal, res.message);
                     });
                 }
-                
-                // Logout
-                if (logoutBtn) {
-                    logoutBtn.addEventListener('click', async function() {
-                        showLoading('Logging out...');
-                        await userManager.logoutUser();
-                        hideLoading();
-                        showLoginScreen();
-                    });
-                }
-                
-                // User profile menu
-                if (userProfile) {
-                    userProfile.addEventListener('click', function() { 
-                        userMenu.classList.toggle('active'); 
-                    });
-                }
-                
-                document.addEventListener('click', function(e) { 
-                    if (userProfile && !userProfile.contains(e.target) && userMenu && !userMenu.contains(e.target)) 
-                        userMenu.classList.remove('active'); 
-                });
-                
-                // Change password
-                if (changePasswordBtn) {
-                    changePasswordBtn.addEventListener('click', function() { 
-                        userMenu.classList.remove('active'); 
-                        showModal(changePasswordModal); 
-                    });
-                }
-                
+                if (userProfile) userProfile.addEventListener('click', function() { userMenu.classList.toggle('active'); });
+                document.addEventListener('click', function(e) { if (userProfile && !userProfile.contains(e.target) && userMenu && !userMenu.contains(e.target)) userMenu.classList.remove('active'); });
+                if (changePasswordBtn) changePasswordBtn.addEventListener('click', function() { userMenu.classList.remove('active'); showModal(changePasswordModal); });
                 if (changePasswordForm) {
                     changePasswordForm.addEventListener('submit', async function(e) {
                         e.preventDefault();
-                        const user = userManager.currentUser; 
-                        if (!user) return;
-                        
-                        const cur = currentPassword.value, 
-                              newP = newPassword.value, 
-                              conf = confirmNewPassword.value;
-                        
+                        const user = userManager.currentUser; if (!user) return;
+                        const cur = currentPassword.value, newP = newPassword.value, conf = confirmNewPassword.value;
                         if (!cur || !newP || !conf) { showModal(errorModal, 'Please fill in all fields'); return; }
                         if (newP !== conf) { showModal(errorModal, 'New passwords do not match'); return; }
                         if (newP.length < 6) { showModal(errorModal, 'New password must be at least 6 characters'); return; }
-                        
                         showLoading('Changing password...');
                         const res = await userManager.changePassword(user.uid, cur, newP);
                         hideLoading();
-                        
-                        if (res.success) { 
-                            hideModal(changePasswordModal); 
-                            showModal(successModal, 'Password changed successfully!'); 
-                            currentPassword.value = ''; 
-                            newPassword.value = ''; 
-                            confirmNewPassword.value = ''; 
-                        } else showModal(errorModal, res.message);
+                        if (res.success) { hideModal(changePasswordModal); showModal(successModal, 'Password changed successfully!'); currentPassword.value=''; newPassword.value=''; confirmNewPassword.value=''; }
+                        else showModal(errorModal, res.message);
                     });
                 }
-                
-                if (cancelChangePasswordBtn) {
-                    cancelChangePasswordBtn.addEventListener('click', function() { 
-                        hideModal(changePasswordModal); 
-                        currentPassword.value = ''; 
-                        newPassword.value = ''; 
-                        confirmNewPassword.value = ''; 
-                    });
-                }
-                
-                // Referral code copy/share
-                if (copyReferralBtn) {
-                    copyReferralBtn.addEventListener('click', function() { 
-                        navigator.clipboard.writeText(referralCode.textContent).then(() => { 
-                            showModal(successModal, 'Referral code copied to clipboard! Share it with your friends.'); 
-                        }); 
-                    });
-                }
-                
-                if (shareReferralBtn) {
-                    shareReferralBtn.addEventListener('click', function() { 
-                        navigator.clipboard.writeText(referralCode.textContent).then(() => { 
-                            showModal(successModal, 'Referral code copied! Share it with your friends.'); 
-                        }); 
-                    });
-                }
-                
-                if (zeroShareReferralBtn) {
-                    zeroShareReferralBtn.addEventListener('click', function() { 
-                        navigator.clipboard.writeText(referralCode.textContent).then(() => { 
-                            showModal(successModal, 'Referral code copied! Share it with your friends.'); 
-                        }); 
-                    });
-                }
-                
-                // Support buttons
-                if (earnBtn) earnBtn.addEventListener('click', () => showModal(chatModal));
+                if (cancelChangePasswordBtn) cancelChangePasswordBtn.addEventListener('click', function() { hideModal(changePasswordModal); currentPassword.value=''; newPassword.value=''; confirmNewPassword.value=''; });
+                if (copyReferralBtn) copyReferralBtn.addEventListener('click', function() { navigator.clipboard.writeText(referralCode.textContent).then(() => { showModal(successModal, 'Referral code copied to clipboard! Share it with your friends.'); }); });
+                if (shareReferralBtn) shareReferralBtn.addEventListener('click', function() { navigator.clipboard.writeText(referralCode.textContent).then(() => { showModal(successModal, 'Referral code copied! Share it with your friends.'); }); });
+                if (zeroShareReferralBtn) zeroShareReferralBtn.addEventListener('click', function() { navigator.clipboard.writeText(referralCode.textContent).then(() => { showModal(successModal, 'Referral code copied! Share it with your friends.'); }); });
+                const chatBtn = document.getElementById('earnBtn'); if (chatBtn) chatBtn.addEventListener('click', () => showModal(chatModal));
                 if (infoChatBtn) infoChatBtn.addEventListener('click', () => window.open('https://t.me/earnforearnsuportteam', '_blank'));
-                if (infoEmailBtn) infoEmailBtn.addEventListener('click', () => { 
-                    navigator.clipboard.writeText('earnforearnsuportteam@gmail.com').then(() => 
-                        showModal(successModal, 'Support email copied to clipboard!')
-                    ); 
-                });
-                
-                if (startChatBtn) {
-                    startChatBtn.addEventListener('click', function() { 
-                        window.open('https://t.me/earnforearnsuportteam', '_blank'); 
-                        hideModal(chatModal); 
-                    });
-                }
-                
+                if (infoEmailBtn) infoEmailBtn.addEventListener('click', () => { navigator.clipboard.writeText('earnforearnsuportteam@gmail.com').then(() => showModal(successModal, 'Support email copied to clipboard!')); });
+                if (startChatBtn) startChatBtn.addEventListener('click', function() { window.open('https://t.me/earnforearnsuportteam', '_blank'); hideModal(chatModal); });
                 if (cancelChatBtn) cancelChatBtn.addEventListener('click', () => hideModal(chatModal));
-                
-                // Timer modals
-                if (timerOkBtn) {
-                    timerOkBtn.addEventListener('click', function() { 
-                        hideModal(timerWarningModal); 
-                        startTaskTimer(); 
-                    });
-                }
-                
-                if (timerCancelBtn) {
-                    timerCancelBtn.addEventListener('click', function() { 
-                        hideModal(timerWarningModal); 
-                        if (taskButtonElement) { 
-                            taskButtonElement.disabled = false; 
-                            taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task'; 
-                            currentTask = null; 
-                            taskButtonElement = null; 
-                        } 
-                    });
-                }
-                
-                // Withdrawal
-                if (nextButton) {
-                    nextButton.addEventListener('click', function() { 
-                        if (binanceForm) binanceForm.classList.add('active'); 
-                        this.style.display = 'none'; 
-                    });
-                }
-                
+                if (timerOkBtn) timerOkBtn.addEventListener('click', function() { hideModal(timerWarningModal); startTaskTimer(); });
+                if (timerCancelBtn) timerCancelBtn.addEventListener('click', function() { hideModal(timerWarningModal); if (taskButtonElement) { taskButtonElement.disabled=false; taskButtonElement.innerHTML='<i class="fas fa-play-circle"></i> Start Task'; currentTask=null; taskButtonElement=null; } });
+                if (nextButton) nextButton.addEventListener('click', function() { binanceForm.classList.add('active'); this.style.display='none'; });
                 if (submitWithdrawBtn) {
                     submitWithdrawBtn.addEventListener('click', async function(e) {
                         e.preventDefault();
-                        const user = userManager.currentUser; 
-                        if (!user) return;
-                        
-                        const email = binanceEmail.value.trim(); 
-                        const amount = parseInt(withdrawAmount.value); 
-                        const payId = binancePayId.value.trim();
-                        
+                        const user = userManager.currentUser; if (!user) return;
+                        const email = binanceEmail.value.trim(); const amount = parseInt(withdrawAmount.value); const payId = binancePayId.value.trim();
                         if (!email) { showModal(errorModal, 'Please enter your Binance email or UID'); return; }
-                        if (!amount || amount < 100000) { showModal(errorModal, 'Minimum withdrawal amount is 100,000 Pepe'); return; }
+                        if (!amount || amount < 50000) { showModal(errorModal, 'Minimum withdrawal amount is 50,000 Pepe'); return; }
                         if (amount > userManager.userData.balance) { showModal(errorModal, 'Insufficient Pepe'); return; }
-                        
                         showLoading('Submitting withdrawal request...');
                         const res = await userManager.submitWithdrawal(user.uid, amount, { email, payId, submittedAt: new Date().toISOString() });
                         hideLoading();
-                        
                         if (res.success) {
-                            if (binanceForm) binanceForm.classList.remove('active'); 
-                            if (successMessage) successMessage.classList.add('active');
-                            updateUserInfo(userManager.userData); 
-                            updatePaymentSchedule(userManager.userData); 
-                            checkWithdrawalRequirements(userManager.userData);
+                            binanceForm.classList.remove('active'); successMessage.classList.add('active');
+                            updateUserInfo(userManager.userData); updatePaymentSchedule(userManager.userData); checkWithdrawalRequirements(userManager.userData);
                             displayWithdrawalHistory(userManager.userData);
                             showModal(successModal, `Withdrawal request submitted! You will receive ${amount.toLocaleString()} Pepe to your Binance account between 3rd-9th of next month.`);
-                            if (binanceEmail) binanceEmail.value = ''; 
-                            if (withdrawAmount) withdrawAmount.value = ''; 
-                            if (binancePayId) binancePayId.value = '';
+                            binanceEmail.value = ''; withdrawAmount.value = ''; binancePayId.value = '';
                         } else showModal(errorModal, res.message);
                     });
                 }
-                
-                // Modal close buttons
                 if (successOkBtn) successOkBtn.addEventListener('click', () => hideModal(successModal));
                 if (errorOkBtn) errorOkBtn.addEventListener('click', () => hideModal(errorModal));
                 if (referralBonusOkBtn) referralBonusOkBtn.addEventListener('click', () => hideModal(referralBonusModal));
-                
-                // Click outside to close modals
-                [successModal, errorModal, referralBonusModal, chatModal, timerWarningModal, adsgramInfoModal, changePasswordModal].forEach(m => { 
-                    if (m) m.addEventListener('click', function(e) { 
-                        if (e.target === this) hideModal(this); 
-                    }); 
-                });
-                
-            } catch(e) { 
-                console.error("Init error", e); 
-                document.body.innerHTML = `
-                    <div style="padding:40px; text-align:center; color:white; background:black;">
-                        <h1>Earn For Earn</h1>
-                        <p>App initialization error. Please refresh the page.</p>
-                        <button onclick="location.reload()" style="margin-top:20px; padding:10px 20px; background:purple; color:white; border:none; border-radius:10px;">
-                            Refresh Page
-                        </button>
-                    </div>
-                `;
+                [successModal, errorModal, referralBonusModal, chatModal, timerWarningModal, changePasswordModal].forEach(m => { if (m) m.addEventListener('click', function(e) { if (e.target === this) hideModal(this); }); });
+            } catch(e) { console.error("Init error", e); 
+                document.body.innerHTML = `<div style="padding:40px; text-align:center; color:white; background:black;"><h1>Earn For Earn</h1><p>App initialization error. Please refresh the page.</p><button onclick="location.reload()" style="margin-top:20px; padding:10px 20px; background:purple; color:white; border:none; border-radius:10px;">Refresh Page</button></div>`;
             }
         }
         
-        // Start the app
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initApp);
         else initApp();
     </script>
